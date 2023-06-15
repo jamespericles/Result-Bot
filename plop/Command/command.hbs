@@ -1,0 +1,10 @@
+import { SlashCommandBuilder } from '@discordjs/builders';
+import { CommandInteraction } from 'discord.js';
+
+export const data = new SlashCommandBuilder()
+  .setName('{{camelCase name}}')
+  .setDescription('{{description}}');
+
+export async function execute(interaction: CommandInteraction) {
+  return // TODO
+}
