@@ -1,4 +1,4 @@
-import * as queryString from '../../graphql/queries/getEventID'
+import * as queryString from '../../graphql/queries/getEventStanding'
 import dotenv from 'dotenv'
 dotenv.config()
 // This is ugly and I hate it, see: https://github.com/node-fetch/node-fetch/blob/HEAD/docs/v3-UPGRADE-GUIDE.md
@@ -9,18 +9,37 @@ const fetch = (...args) =>
 
 const { STARTGG_KEY, STARTGG_URI } = process.env
 
+type Entrant = {
+  id: number
+  name: string
+}
+
+type StandingsNode = {
+  placement: number
+  entrant: Entrant
+}
+
+type Standings = {
+  nodes: StandingsNode[]
+}
+
+type Event = {
+  id: number
+  name: string
+  standings: Standings
+}
+
 type EventData = {
   data: {
-    event: {
-      id: number
-      name: string
-    }
+    event: Event
   }
 }
 
-const getEventID = async (eventSlug: string): Promise<number> => {
-  let eventID: number = 0
-
+const getEventStanding = async (
+  eventID: number,
+  page: number = 1,
+  perPage: number = 3
+): Promise<void> => {
   if (STARTGG_KEY && STARTGG_URI) {
     const query = queryString.default?.loc?.source?.body
 
@@ -35,23 +54,24 @@ const getEventID = async (eventSlug: string): Promise<number> => {
         body: JSON.stringify({
           query,
           variables: {
-            slug: eventSlug,
+            eventId: eventID,
+            page,
+            perPage,
           },
         }),
       })
 
       // TODO: Is this the best way to handle this?
       const { data } = (await response.json()) as EventData
+      console.log('data:', data)
 
       if (!data || !data.event) {
-        throw new Error(`Event with slug ${eventSlug} not found`)
+        throw new Error(`Event not found`)
       }
-
-      eventID = data.event.id
     }
   }
 
-  return eventID
+  // return
 }
 
-export default getEventID
+export default getEventStanding

@@ -35,7 +35,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const queryString = __importStar(require("../../graphql/queries/getEventID"));
+const queryString = __importStar(require("../../graphql/queries/getEventStanding"));
 const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
 // This is ugly and I hate it, see: https://github.com/node-fetch/node-fetch/blob/HEAD/docs/v3-UPGRADE-GUIDE.md
@@ -44,9 +44,8 @@ const fetch = (...args) =>
 // @ts-ignore
 import('node-fetch').then(({ default: fetch }) => fetch(...args));
 const { STARTGG_KEY, STARTGG_URI } = process.env;
-const getEventID = (eventSlug) => __awaiter(void 0, void 0, void 0, function* () {
+const getEventStanding = (eventID, page = 1, perPage = 3) => __awaiter(void 0, void 0, void 0, function* () {
     var _a, _b, _c;
-    let eventID = 0;
     if (STARTGG_KEY && STARTGG_URI) {
         const query = (_c = (_b = (_a = queryString.default) === null || _a === void 0 ? void 0 : _a.loc) === null || _b === void 0 ? void 0 : _b.source) === null || _c === void 0 ? void 0 : _c.body;
         if (query) {
@@ -60,18 +59,20 @@ const getEventID = (eventSlug) => __awaiter(void 0, void 0, void 0, function* ()
                 body: JSON.stringify({
                     query,
                     variables: {
-                        slug: eventSlug,
+                        eventId: eventID,
+                        page,
+                        perPage,
                     },
                 }),
             });
             // TODO: Is this the best way to handle this?
             const { data } = (yield response.json());
+            console.log('data:', data);
             if (!data || !data.event) {
-                throw new Error(`Event with slug ${eventSlug} not found`);
+                throw new Error(`Event not found`);
             }
-            eventID = data.event.id;
         }
     }
-    return eventID;
+    // return
 });
-exports.default = getEventID;
+exports.default = getEventStanding;

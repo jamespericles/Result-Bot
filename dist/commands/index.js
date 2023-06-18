@@ -23,7 +23,8 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ping = void 0;
+exports.ping = exports.getEventId = void 0;
 /* PLOP_INJECT_EXPORT */
+exports.getEventId = __importStar(require("./getEventID"));
 // export * as getEventStanding from './getEventStanding'
 exports.ping = __importStar(require("./ping"));

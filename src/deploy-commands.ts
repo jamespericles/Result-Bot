@@ -24,6 +24,6 @@ rest
     body: commands,
   })
   .then(() => {
-    console.log('Successfully registered application commands.')
+    console.log('\u001b[34m Successfully registered application commands.')
   })
   .catch(console.error)
