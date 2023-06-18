@@ -21,3 +21,5 @@ client.on('interactionCreate', async (interaction: any) => {
 })
 
 client.login(config.DISCORD_TOKEN)
+
+// getEventID('tournament/alulu-134/event/ultimate-singles')

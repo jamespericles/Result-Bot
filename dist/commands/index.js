@@ -25,4 +25,5 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ping = void 0;
 /* PLOP_INJECT_EXPORT */
+// export * as getEventStanding from './getEventStanding'
 exports.ping = __importStar(require("./ping"));

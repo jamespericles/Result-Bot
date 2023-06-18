@@ -37,6 +37,7 @@ for (const module of Object.values(commandModules)) {
 }
 const rest = new rest_1.REST({ version: '9' }).setToken(config_1.default.DISCORD_TOKEN);
 // Register commands to the guild.
+// TODO: Automatically run yarn deploy:commands when prod is updated, add to deployment pipeline
 rest
     .put(v9_1.Routes.applicationGuildCommands(config_1.default.CLIENT_ID, config_1.default.GUILD_ID), {
     body: commands,
