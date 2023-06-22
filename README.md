@@ -18,6 +18,11 @@ The bot is written primarily in TypeScript, and uses [discord.js](https://discor
 - `STARTGG_TOKEN` - The token for your start.gg API key
 - `STARTGG_URI` - The URI for your start.gg API key, all requests go through the same URI 'https://api.start.gg/gql/alpha'. You can choose to keep the URI here in the `.env` file as I have, or you can instead replace any usage of `process.env.STARTGG_URI` with the URI itself.
 
+4. Ensure that you are using the correct version of Node as specified by the `.nvmrc` file found in the root of this directory. If you are using [nvm](https://github.com/nvm-sh/nvm) you can simply run `nvm use` to use the correct version of Node.
+5. Before you can run the bot locally, be sure to run `npm build` in order to compile all TypeScript files into JavaScript files. This will create a `dist` folder in the root of the project, which is where the compiled JavaScript files will live.
+6. Finally, run `npm start` to start the bot locally. If all has worked correctly, the bot should be online in your Discord server.
+7. In order to add any commands you may have created, run `yarn deploy:commands`, otherwise the bot will only have access to the commands that are already deployed to the server.
+
 ## Future Plans
 
 **MVP1**

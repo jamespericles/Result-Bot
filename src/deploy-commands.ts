@@ -1,17 +1,23 @@
 import { REST } from '@discordjs/rest'
-import { SlashCommandBuilder } from '@discordjs/builders'
 import { Routes } from 'discord-api-types/v9'
 import config from './config'
 import * as commandModules from './commands'
 
+// TODO: refine this type to remove any
+// any is used here because chaining an `.add_____Option` to the SlashCommandBuilder makes the type incompatible with Command
 type Command = {
-  data: SlashCommandBuilder
+  data: {
+    options?: any[]
+    name: string
+    description: string
+  }
 }
 
 // All commands must be registered before they can be used.
 const commands = []
 
 for (const module of Object.values<Command>(commandModules)) {
+  console.log(module)
   commands.push(module.data)
 }
 

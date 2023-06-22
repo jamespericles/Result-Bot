@@ -14,37 +14,26 @@ const builders_1 = require("@discordjs/builders");
 const util_1 = require("../util");
 exports.data = new builders_1.SlashCommandBuilder()
     .setName('test')
-    .setDescription('test');
-// .addStringOption((option) =>
-//   option
-//     .setName('tournament')
-//     .setDescription('The tournament to get the standings for')
-//     // TODO: Add autocomplete for this, suggest this week's alulu, or last week's
-//     // .addChoices
-//     .setRequired(true)
-// )
-// .addStringOption((option) =>
-//   option
-//     .setName('event')
-//     .setDescription('The event to get the standings for')
-//     .addChoices({
-//       name: 'ultimate-singles',
-//       value: 'ultimate-singles',
-//     })
-//     .setRequired(true)
-// )
+    .setDescription('test')
+    .addIntegerOption((option) => option
+    .setName('tournament')
+    .setDescription('The tournament to get the standings for')
+    .setRequired(true));
 function execute(interaction) {
     return __awaiter(this, void 0, void 0, function* () {
-        const tournament = interaction.options.getUser('tournament');
-        const event = interaction.options.getUser('event');
-        yield (0, util_1.getEventID)(`tournament/${tournament}/event/${event}`)
-            .then((data) => {
-            return interaction.reply(`Event ID: ${data}`);
-        })
-            .catch((err) => {
+        yield interaction.deferReply({ ephemeral: true });
+        const tournamentNumber = interaction.options.getUser('tournament');
+        const event = 'ultimate-singles';
+        let eventID;
+        try {
+            let data = yield (0, util_1.getEventID)(`tournament/alulu-${tournamentNumber}/event/${event}`);
+        }
+        catch (err) {
             console.error(err);
-            return interaction.reply('Error');
-        });
+        }
+        finally {
+            yield interaction.editReply('123');
+        }
     });
 }
 exports.execute = execute;
