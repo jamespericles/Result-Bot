@@ -5,12 +5,12 @@ import { getEventID } from '../util'
 export const data = new SlashCommandBuilder()
   .setName('test')
   .setDescription('test')
-  .addIntegerOption((option) =>
-    option
-      .setName('tournament')
-      .setDescription('The tournament to get the standings for')
-      .setRequired(true)
-  )
+data.addIntegerOption((option) =>
+  option
+    .setName('tournament')
+    .setDescription('The tournament to get the standings for')
+    .setRequired(true)
+)
 
 export async function execute(interaction: CommandInteraction) {
   await interaction.deferReply({ ephemeral: true })
