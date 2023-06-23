@@ -1,5 +1,6 @@
 import * as queryString from '../../graphql/queries/getEventStanding'
 import dotenv from 'dotenv'
+import { EventData, GetEventStandingReturnType } from '../../types'
 dotenv.config()
 // This is ugly and I hate it, see: https://github.com/node-fetch/node-fetch/blob/HEAD/docs/v3-UPGRADE-GUIDE.md
 // @ts-ignore
@@ -9,37 +10,11 @@ const fetch = (...args) =>
 
 const { STARTGG_KEY, STARTGG_URI } = process.env
 
-type Entrant = {
-  id: number
-  name: string
-}
-
-type StandingsNode = {
-  placement: number
-  entrant: Entrant
-}
-
-type Standings = {
-  nodes: StandingsNode[]
-}
-
-type Event = {
-  id: number
-  name: string
-  standings: Standings
-}
-
-type EventData = {
-  data?: {
-    event: Event
-  }
-}
-
 const getEventStanding = async (
   eventID: number,
   page: number = 1,
   perPage: number = 3
-): Promise<EventData | undefined> => {
+): Promise<GetEventStandingReturnType> => {
   if (STARTGG_KEY && STARTGG_URI) {
     const query = queryString.default?.loc?.source?.body
 

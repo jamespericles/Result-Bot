@@ -21,7 +21,6 @@ exports.data = new builders_1.SlashCommandBuilder()
     .setDescription('Which Alulu tournament?')
     .setRequired(true));
 function execute(interaction) {
-    var _a, _b, _c;
     return __awaiter(this, void 0, void 0, function* () {
         yield interaction.deferReply({ ephemeral: true });
         const alulu = interaction.options.get('alulu');
@@ -29,13 +28,16 @@ function execute(interaction) {
         const eventID = yield (0, util_1.getEventID)(slug);
         if (eventID) {
             const eventStanding = yield (0, util_1.getEventStanding)(eventID);
-            const standing = (_c = (_b = (_a = eventStanding === null || eventStanding === void 0 ? void 0 : eventStanding.data) === null || _a === void 0 ? void 0 : _a.event) === null || _b === void 0 ? void 0 : _b.standings) === null || _c === void 0 ? void 0 : _c.nodes;
-            if (standing) {
+            // const standing = (eventStanding as EventData)?.data?.event?.standings?.nodes
+            if (eventStanding instanceof Error) {
+                return yield interaction.editReply('Error, double check the tournament ID!');
+            }
+            if (eventStanding && eventStanding.data) {
                 const embed = new discord_js_1.EmbedBuilder()
                     .setColor(0xefff00)
                     .setTitle(`Alulu ${alulu === null || alulu === void 0 ? void 0 : alulu.value} | Ultimate Singles Top 3`)
                     .setURL(`https://start.gg/${slug}`);
-                standing.forEach((node) => {
+                eventStanding.data.event.standings.nodes.forEach((node) => {
                     embed.addFields({
                         name: `#${node.placement}`,
                         value: `[${node.entrant.name}](https://start.gg/user/${node.entrant.id})`,
