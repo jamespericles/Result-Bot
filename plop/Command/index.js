@@ -15,14 +15,14 @@ module.exports = {
     actions: [
       {
         type: 'add',
-        path: 'src/commands/{{name}}.ts',
+        path: 'src/commands/{{snakeCase name}}.ts',
         templateFile: 'plop/Command/command.hbs',
       },
       {
         type: 'append',
         path: 'src/commands/index.ts',
         pattern: `/* PLOP_INJECT_EXPORT */`,
-        template: `export * as {{camelCase name}} from './{{name}}'`,
+        template: `export * as {{snakeCase name}} from './{{snakeCase name}}'`,
     },
   ],
 }
