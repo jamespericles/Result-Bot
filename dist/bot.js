@@ -54,4 +54,3 @@ exports.client.on('interactionCreate', (interaction) => __awaiter(void 0, void 0
     commands[commandName].execute(interaction, exports.client);
 }));
 exports.client.login(config_1.default.DISCORD_TOKEN);
-// getEventID('tournament/alulu-134/event/ultimate-singles')

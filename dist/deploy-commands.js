@@ -33,7 +33,6 @@ const commandModules = __importStar(require("./commands"));
 // All commands must be registered before they can be used.
 const commands = [];
 for (const module of Object.values(commandModules)) {
-    console.log(module);
     commands.push(module.data);
 }
 const rest = new rest_1.REST({ version: '9' }).setToken(config_1.default.DISCORD_TOKEN);

@@ -13,27 +13,19 @@ exports.execute = exports.data = void 0;
 const builders_1 = require("@discordjs/builders");
 const util_1 = require("../util");
 exports.data = new builders_1.SlashCommandBuilder()
-    .setName('test')
-    .setDescription('test')
+    .setName('event_id')
+    .setDescription('Replies with the event ID!')
     .addIntegerOption((option) => option
-    .setName('tournament')
-    .setDescription('The tournament to get the standings for')
+    .setName('alulu')
+    .setDescription('Which Alulu tournament?')
     .setRequired(true));
 function execute(interaction) {
     return __awaiter(this, void 0, void 0, function* () {
         yield interaction.deferReply({ ephemeral: true });
-        const tournamentNumber = interaction.options.getUser('tournament');
-        const event = 'ultimate-singles';
-        let eventID;
-        try {
-            let data = yield (0, util_1.getEventID)(`tournament/alulu-${tournamentNumber}/event/${event}`);
-        }
-        catch (err) {
-            console.error(err);
-        }
-        finally {
-            yield interaction.editReply('123');
-        }
+        const alulu = interaction.options.get('alulu');
+        const eventID = yield (0, util_1.getEventID)(`tournament/alulu-${alulu === null || alulu === void 0 ? void 0 : alulu.value}/event/ultimate-singles`);
+        yield interaction.editReply(`Event ID: ${eventID}`);
+        return;
     });
 }
 exports.execute = execute;

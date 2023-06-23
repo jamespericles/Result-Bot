@@ -17,7 +17,6 @@ type Command = {
 const commands = []
 
 for (const module of Object.values<Command>(commandModules)) {
-  console.log(module)
   commands.push(module.data)
 }
 

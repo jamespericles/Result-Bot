@@ -67,12 +67,13 @@ const getEventStanding = (eventID, page = 1, perPage = 3) => __awaiter(void 0, v
             });
             // TODO: Is this the best way to handle this?
             const { data } = (yield response.json());
-            console.log('data:', data);
             if (!data || !data.event) {
                 throw new Error(`Event not found`);
             }
+            else if (data) {
+                return { data };
+            }
         }
     }
-    // return
 });
 exports.default = getEventStanding;

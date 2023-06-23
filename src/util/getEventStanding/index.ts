@@ -30,7 +30,7 @@ type Event = {
 }
 
 type EventData = {
-  data: {
+  data?: {
     event: Event
   }
 }
@@ -39,7 +39,7 @@ const getEventStanding = async (
   eventID: number,
   page: number = 1,
   perPage: number = 3
-): Promise<void> => {
+): Promise<EventData | undefined> => {
   if (STARTGG_KEY && STARTGG_URI) {
     const query = queryString.default?.loc?.source?.body
 
@@ -63,15 +63,14 @@ const getEventStanding = async (
 
       // TODO: Is this the best way to handle this?
       const { data } = (await response.json()) as EventData
-      console.log('data:', data)
 
       if (!data || !data.event) {
         throw new Error(`Event not found`)
+      } else if (data) {
+        return { data }
       }
     }
   }
-
-  // return
 }
 
 export default getEventStanding
