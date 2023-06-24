@@ -103,10 +103,12 @@ client.on('ready', async () => {
         eventStanding
       )
 
-      channel.send({
-        embeds: [embed],
-        content: `@here Check out the results of Alulu-${weekCount}!`,
-      })
+      // channel.send({
+      //   embeds: [embed],
+      //   content: `@here Check out the results of Alulu-${weekCount}!`,
+      // })
+
+      channel.send({ content: "I'm in the cloud 😎" })
 
       incrementWeekCount()
       console.log('weekCount:', weekCount)
