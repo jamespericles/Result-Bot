@@ -2,7 +2,7 @@ import { EmbedBuilder } from '@discordjs/builders'
 import { EventData } from '../../types'
 
 const generateResultsPayload = (
-  week: string,
+  week: string | number,
   slug: string,
   eventStanding: EventData
 ): EmbedBuilder => {

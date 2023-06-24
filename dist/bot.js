@@ -49,6 +49,8 @@ exports.client = new discord_js_1.Client({
     intents: [discord_js_1.GatewayIntentBits.Guilds, discord_js_1.GatewayIntentBits.GuildMessages],
 });
 exports.client.once('ready', () => {
+    const channel = exports.client.channels.cache.get(process.env.CHANNEL_ID);
+    channel.send({ content: '@here' });
     console.log('🤖 Bot is ready!');
 });
 exports.client.on('interactionCreate', (interaction) => __awaiter(void 0, void 0, void 0, function* () {
@@ -65,7 +67,6 @@ function incrementWeekCount() {
 }
 exports.client.on('ready', () => __awaiter(void 0, void 0, void 0, function* () {
     const job = new cron_1.CronJob('0 9 * * 3', () => __awaiter(void 0, void 0, void 0, function* () {
-        // Every Wednesday at 9am
         // 9am every Wednesday
         const weekCount = parseInt(fs_1.default.readFileSync('WEEK_COUNT.txt', 'utf8'));
         const channel = exports.client.channels.cache.get(process.env.CHANNEL_ID);
@@ -77,16 +78,7 @@ exports.client.on('ready', () => __awaiter(void 0, void 0, void 0, function* () 
             return;
         }
         if (eventStanding && eventStanding.data) {
-            const embed = new discord_js_1.EmbedBuilder()
-                .setColor(0xefff00)
-                .setTitle(`Alulu ${weekCount} | Ultimate Singles Top 3`)
-                .setURL(`https://start.gg/${slug}`);
-            eventStanding.data.event.standings.nodes.forEach((node) => {
-                embed.addFields({
-                    name: `#${node.placement}`,
-                    value: `[${node.entrant.name}](https://start.gg/user/${node.entrant.id})`,
-                });
-            });
+            const embed = (0, util_1.generateResultsPayload)(weekCount.toString(), slug, eventStanding);
             channel.send({ embeds: [embed] });
             incrementWeekCount();
         }

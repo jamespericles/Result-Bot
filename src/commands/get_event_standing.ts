@@ -1,7 +1,7 @@
 import { SlashCommandBuilder } from '@discordjs/builders'
-import { CommandInteraction, EmbedBuilder } from 'discord.js'
+import { CommandInteraction } from 'discord.js'
 import { getEventID, getEventStanding, generateResultsPayload } from '../util'
-import { EventData, StandingsNode } from '../types'
+import { EventData } from '../types'
 
 export const data = new SlashCommandBuilder()
   .setName('get_event_standing')
