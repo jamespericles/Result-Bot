@@ -3,3 +3,7 @@ build
 
 .env
 notes.md
+.env*
+.flaskenv*
+!.env.project
+!.env.vault

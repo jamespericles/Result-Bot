@@ -27,10 +27,13 @@ The bot is written primarily in TypeScript, and uses [discord.js](https://discor
 
 **MVP1**
 
-- [ ] Add a function to mention everyone in the results channel with the top 3 placements of the most recent tournament
-  - [ ] Automate this function to run every Wednesday at 9am CST using a Cron job
+- [x] Add a function to mention everyone in the results channel with the top 3 placements of the most recent tournament
+  - [x] Automate this function to run every Wednesday at 9am CST using a Cron job
 
 ---
 
-- [ ] Add a function to query the start.gg API and return the top 3 placements for a specific tournament
+- [x] Add a function to query the start.gg API and return the top 3 placements for a specific tournament
 - [ ] Track improvement of players over time in some meaningful way
+- [ ] Improve .env handling
+- [ ] Improve deployment process
+- [ ] Improve error handling

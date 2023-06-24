@@ -17,10 +17,6 @@ export const client = new Client({
 })
 
 client.once('ready', () => {
-  const channel = client.channels.cache.get(
-    process.env.CHANNEL_ID as string
-  ) as TextChannel
-  channel.send({ content: '@here' })
   console.log('🤖 Bot is ready!')
 })
 
@@ -39,48 +35,10 @@ function incrementWeekCount() {
   fs.writeFileSync('WEEK_COUNT.txt', weekCount.toString(), 'utf8')
 }
 
-// client.on('ready', async () => {
-//   const job = new CronJob('0 9 * * 3', async () => {
-//     // 9am every Wednesday
-//     const weekCount = parseInt(fs.readFileSync('WEEK_COUNT.txt', 'utf8'))
-//     const channel = client.channels.cache.get(
-//       process.env.CHANNEL_ID as string
-//     ) as TextChannel
-//     const slug = `tournament/alulu-${weekCount}/event/ultimate-singles`
-
-//     const eventID = await getEventID(slug)
-//     const eventStanding: EventData | Error | undefined = await getEventStanding(
-//       eventID
-//     )
-
-//     if (eventStanding instanceof Error) {
-//       console.error(eventStanding)
-//       return
-//     }
-
-//     if (eventStanding && eventStanding.data) {
-//       const embed = generateResultsPayload(
-//         weekCount.toString(),
-//         slug,
-//         eventStanding
-//       )
-//       channel.send({
-//         embeds: [embed],
-//         content: `@here Check out the results of Alulu-${weekCount}!`,
-//       })
-//       incrementWeekCount()
-//     }
-//   })
-
-//   job.start()
-// })
-
-// TESTING FOR PROD
 client.on('ready', async () => {
-  const job = new CronJob('*/10 * * * * *', async () => {
+  const job = new CronJob('0 9 * * 3', async () => {
     // 9am every Wednesday
     const weekCount = parseInt(fs.readFileSync('WEEK_COUNT.txt', 'utf8'))
-    console.log('weekCount:', weekCount)
     const channel = client.channels.cache.get(
       process.env.CHANNEL_ID as string
     ) as TextChannel
@@ -102,16 +60,11 @@ client.on('ready', async () => {
         slug,
         eventStanding
       )
-
-      // channel.send({
-      //   embeds: [embed],
-      //   content: `@here Check out the results of Alulu-${weekCount}!`,
-      // })
-
-      channel.send({ content: "I'm in the cloud 😎" })
-
+      channel.send({
+        embeds: [embed],
+        content: `@here Check out the results of Alulu-${weekCount}!`,
+      })
       incrementWeekCount()
-      console.log('weekCount:', weekCount)
     }
   })
 

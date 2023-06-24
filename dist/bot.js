@@ -49,8 +49,6 @@ exports.client = new discord_js_1.Client({
     intents: [discord_js_1.GatewayIntentBits.Guilds, discord_js_1.GatewayIntentBits.GuildMessages],
 });
 exports.client.once('ready', () => {
-    const channel = exports.client.channels.cache.get(process.env.CHANNEL_ID);
-    channel.send({ content: '@here' });
     console.log('🤖 Bot is ready!');
 });
 exports.client.on('interactionCreate', (interaction) => __awaiter(void 0, void 0, void 0, function* () {
@@ -79,7 +77,10 @@ exports.client.on('ready', () => __awaiter(void 0, void 0, void 0, function* () 
         }
         if (eventStanding && eventStanding.data) {
             const embed = (0, util_1.generateResultsPayload)(weekCount.toString(), slug, eventStanding);
-            channel.send({ embeds: [embed] });
+            channel.send({
+                embeds: [embed],
+                content: `@here Check out the results of Alulu-${weekCount}!`,
+            });
             incrementWeekCount();
         }
     }));
