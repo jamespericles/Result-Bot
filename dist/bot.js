@@ -39,6 +39,11 @@ exports.client = void 0;
 const discord_js_1 = require("discord.js");
 const config_1 = __importDefault(require("./config"));
 const commandModules = __importStar(require("./commands"));
+const util_1 = require("./util");
+const cron_1 = require("cron");
+const fs_1 = __importDefault(require("fs"));
+const dotenv_1 = __importDefault(require("dotenv"));
+dotenv_1.default.config();
 const commands = Object(commandModules);
 exports.client = new discord_js_1.Client({
     intents: [discord_js_1.GatewayIntentBits.Guilds, discord_js_1.GatewayIntentBits.GuildMessages],
@@ -52,5 +57,40 @@ exports.client.on('interactionCreate', (interaction) => __awaiter(void 0, void 0
     // Handles spreading each command from our commands object
     const { commandName } = interaction;
     commands[commandName].execute(interaction, exports.client);
+}));
+function incrementWeekCount() {
+    let weekCount = parseInt(fs_1.default.readFileSync('WEEK_COUNT.txt', 'utf8'));
+    weekCount++;
+    fs_1.default.writeFileSync('WEEK_COUNT.txt', weekCount.toString(), 'utf8');
+}
+exports.client.on('ready', () => __awaiter(void 0, void 0, void 0, function* () {
+    const job = new cron_1.CronJob('0 9 * * 3', () => __awaiter(void 0, void 0, void 0, function* () {
+        // Every Wednesday at 9am
+        // 9am every Wednesday
+        const weekCount = parseInt(fs_1.default.readFileSync('WEEK_COUNT.txt', 'utf8'));
+        const channel = exports.client.channels.cache.get(process.env.CHANNEL_ID);
+        const slug = `tournament/alulu-${weekCount}/event/ultimate-singles`;
+        const eventID = yield (0, util_1.getEventID)(slug);
+        const eventStanding = yield (0, util_1.getEventStanding)(eventID);
+        if (eventStanding instanceof Error) {
+            console.error(eventStanding);
+            return;
+        }
+        if (eventStanding && eventStanding.data) {
+            const embed = new discord_js_1.EmbedBuilder()
+                .setColor(0xefff00)
+                .setTitle(`Alulu ${weekCount} | Ultimate Singles Top 3`)
+                .setURL(`https://start.gg/${slug}`);
+            eventStanding.data.event.standings.nodes.forEach((node) => {
+                embed.addFields({
+                    name: `#${node.placement}`,
+                    value: `[${node.entrant.name}](https://start.gg/user/${node.entrant.id})`,
+                });
+            });
+            channel.send({ embeds: [embed] });
+            incrementWeekCount();
+        }
+    }));
+    job.start();
 }));
 exports.client.login(config_1.default.DISCORD_TOKEN);

@@ -1,6 +1,6 @@
 import { SlashCommandBuilder } from '@discordjs/builders'
 import { CommandInteraction, EmbedBuilder } from 'discord.js'
-import { getEventID, getEventStanding } from '../util'
+import { getEventID, getEventStanding, generateResultsPayload } from '../util'
 import { EventData, StandingsNode } from '../types'
 
 export const data = new SlashCommandBuilder()
@@ -25,7 +25,6 @@ export async function execute(interaction: CommandInteraction) {
     const eventStanding: EventData | Error | undefined = await getEventStanding(
       eventID
     )
-    // const standing = (eventStanding as EventData)?.data?.event?.standings?.nodes
 
     if (eventStanding instanceof Error) {
       return await interaction.editReply(
@@ -34,18 +33,10 @@ export async function execute(interaction: CommandInteraction) {
     }
 
     if (eventStanding && eventStanding.data) {
-      const embed = new EmbedBuilder()
-        .setColor(0xefff00)
-        .setTitle(`Alulu ${alulu?.value} | Ultimate Singles Top 3`)
-        .setURL(`https://start.gg/${slug}`)
-
-      eventStanding.data.event.standings.nodes.forEach(
-        (node: StandingsNode) => {
-          embed.addFields({
-            name: `#${node.placement}`,
-            value: `[${node.entrant.name}](https://start.gg/user/${node.entrant.id})`,
-          })
-        }
+      const embed = generateResultsPayload(
+        alulu?.value as string,
+        slug,
+        eventStanding
       )
 
       return await interaction.editReply({ embeds: [embed] })
