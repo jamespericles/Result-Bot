@@ -23,17 +23,12 @@ The bot is written primarily in TypeScript, and uses [discord.js](https://discor
 6. Finally, run `npm start` to start the bot locally. If all has worked correctly, the bot should be online in your Discord server.
 7. In order to add any commands you may have created, run `yarn deploy:commands`, otherwise the bot will only have access to the commands that are already deployed to the server.
 
+## Deployment
+
+Currently I'm hosting this project on [Vultr](https://www.vultr.com/) using their lowest specs (Cloud Compute, General Purpose Server, 25 GB NVMe). I also opted for Ubuntu 23.04 x64 as my OS.
+
+As it stands now, production related work leans heavily on secure shell (SSH) file transfers for the purpose of deployment. Additionally, SSH is utilized for remote server administration and management.
+
 ## Future Plans
 
-**MVP1**
-
-- [x] Add a function to mention everyone in the results channel with the top 3 placements of the most recent tournament
-  - [x] Automate this function to run every Wednesday at 9am CST using a Cron job
-
----
-
-- [x] Add a function to query the start.gg API and return the top 3 placements for a specific tournament
-- [ ] Track improvement of players over time in some meaningful way
-- [ ] Improve .env handling
-- [ ] Improve deployment process
-- [ ] Improve error handling
+Check [the issues](https://github.com/jamespericles/Result-Bot/issues) on GitHub for what is currently being worked on or is coming down the pipeline.

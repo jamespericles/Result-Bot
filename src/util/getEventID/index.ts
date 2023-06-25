@@ -1,4 +1,4 @@
-import * as queryString from '../../graphql/queries/getEventID'
+import * as queryString from 'graphql/queries/getEventID'
 import dotenv from 'dotenv'
 dotenv.config()
 // This is ugly and I hate it, see: https://github.com/node-fetch/node-fetch/blob/HEAD/docs/v3-UPGRADE-GUIDE.md

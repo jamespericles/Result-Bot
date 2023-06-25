@@ -1,6 +1,6 @@
 import { SlashCommandBuilder } from '@discordjs/builders'
 import { CommandInteraction } from 'discord.js'
-import { getEventID } from '../util'
+import { getEventID } from 'util/index'
 
 export const data = new SlashCommandBuilder()
   .setName('event_id')

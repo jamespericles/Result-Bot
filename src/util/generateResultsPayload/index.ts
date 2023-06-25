@@ -1,5 +1,5 @@
 import { EmbedBuilder } from '@discordjs/builders'
-import { EventData } from '../../types'
+import { EventData } from 'types'
 
 const generateResultsPayload = (
   week: string | number,

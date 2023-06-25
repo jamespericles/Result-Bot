@@ -1,6 +1,6 @@
-import * as queryString from '../../graphql/queries/getEventStanding'
+import * as queryString from 'graphql/queries/getEventStanding'
 import dotenv from 'dotenv'
-import { EventData, GetEventStandingReturnType } from '../../types'
+import { EventData, GetEventStandingReturnType } from 'types'
 dotenv.config()
 // This is ugly and I hate it, see: https://github.com/node-fetch/node-fetch/blob/HEAD/docs/v3-UPGRADE-GUIDE.md
 // @ts-ignore

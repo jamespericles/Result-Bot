@@ -1,8 +1,12 @@
 import { Client, GatewayIntentBits, TextChannel } from 'discord.js'
 import config from './config'
-import * as commandModules from './commands'
-import { generateResultsPayload, getEventID, getEventStanding } from './util'
-import { EventData } from './types'
+import * as commandModules from 'commands'
+import {
+  generateResultsPayload,
+  getEventID,
+  getEventStanding,
+} from 'util/index'
+import { EventData } from 'types'
 
 import { CronJob } from 'cron'
 import fs from 'fs'
