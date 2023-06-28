@@ -21,7 +21,7 @@ jobs:
           ssh-private-key: ${{ secrets.SERVER_SSH_KEY }}
 
       - name: Pull from server
-        run: ssh root@45.63.66.64 'cd /root/Result-Bot && git pull'
+        run: ssh -o StrictHostKeyChecking=no root@45.63.66.64 'cd /root/Result-Bot && git pull'
 
       - name: Install dependencies
         run: yarn install
