@@ -5,6 +5,7 @@ import {
   getEventStanding,
   generateResultsPayload,
 } from 'util/index'
+import fs from 'fs'
 import { EventData } from 'types'
 
 export const data = new SlashCommandBuilder()
@@ -22,6 +23,15 @@ export async function execute(interaction: CommandInteraction) {
 
   const alulu = interaction.options.get('alulu')
   const slug = `tournament/alulu-${alulu?.value}/event/ultimate-singles`
+  const weekCount = parseInt(fs.readFileSync('WEEK_COUNT.txt', 'utf8'))
+
+  // if (alulu?.value && weekCount) {
+  //   if (typeof alulu.value === 'number' && alulu.value > weekCount) {
+  //     return await interaction.editReply(
+  //       `This week hasn't happened yet! The most recent Alulu tournament is week ${weekCount}.`
+  //     )
+  //   }
+  // }
 
   const eventID = await getEventID(slug)
 
@@ -31,6 +41,9 @@ export async function execute(interaction: CommandInteraction) {
     )
 
     if (eventStanding instanceof Error) {
+      console.error(eventStanding)
+      console.error(eventStanding.stack)
+
       return await interaction.editReply(
         'Error, double check the tournament ID!'
       )

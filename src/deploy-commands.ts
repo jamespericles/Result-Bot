@@ -1,7 +1,7 @@
 import { REST } from '@discordjs/rest'
 import { Routes } from 'discord-api-types/v9'
 import config from './config'
-import * as commandModules from 'commands'
+import * as commandModules from './commands'
 
 // TODO: refine this type to remove any
 // any is used here because chaining an `.add_____Option` to the SlashCommandBuilder makes the type incompatible with Command

@@ -1,9 +1,22 @@
-node_modules
-dist
-
+# Node.js
+node_modules/
 .env
-notes.md
 .env*
+yarn.lock
+
+# Visual Studio Code
+.vscode/*
+
+# MacOS
+.DS_Store
+
+# Logs
+yarn-debug.log*
+yarn-error.log*
+
+# Misc
+dist
+notes.md
 .flaskenv*
 !.env.project
 !.env.vault

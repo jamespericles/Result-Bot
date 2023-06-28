@@ -1,3 +1,5 @@
 export { default as getEventID } from './getEventID'
 export { default as getEventStanding } from './getEventStanding'
 export { default as generateResultsPayload } from './generateResultsPayload'
+export { default as generateEmailAlert } from './generateEmailAlert'
+export { default as exitHandler } from './exitHandler'

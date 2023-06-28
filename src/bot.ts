@@ -2,15 +2,15 @@ import { Client, GatewayIntentBits, TextChannel } from 'discord.js'
 import config from './config'
 import * as commandModules from 'commands'
 import {
+  generateEmailAlert,
   generateResultsPayload,
   getEventID,
   getEventStanding,
+  exitHandler,
 } from 'util/index'
 import { EventData } from 'types'
-
 import { CronJob } from 'cron'
 import fs from 'fs'
-
 import dotenv from 'dotenv'
 dotenv.config()
 
@@ -76,3 +76,6 @@ client.on('ready', async () => {
 })
 
 client.login(config.DISCORD_TOKEN)
+
+// Bind email alert to exit events
+process.on('exit', (code) => exitHandler(code))
