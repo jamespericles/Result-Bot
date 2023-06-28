@@ -19,7 +19,6 @@ jobs:
         uses: webfactory/ssh-agent@v0.5.0
         with:
           ssh-private-key: ${{ secrets.SERVER_SSH_KEY }}
-          known-hosts: ${{ secrets.KNOWN_HOSTS }}
 
       - name: Pull from server
         run: ssh root@45.63.66.64 'cd /root/Result-Bot && git pull'
