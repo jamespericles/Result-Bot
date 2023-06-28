@@ -25,13 +25,13 @@ export async function execute(interaction: CommandInteraction) {
   const slug = `tournament/alulu-${alulu?.value}/event/ultimate-singles`
   const weekCount = parseInt(fs.readFileSync('WEEK_COUNT.txt', 'utf8'))
 
-  // if (alulu?.value && weekCount) {
-  //   if (typeof alulu.value === 'number' && alulu.value > weekCount) {
-  //     return await interaction.editReply(
-  //       `This week hasn't happened yet! The most recent Alulu tournament is week ${weekCount}.`
-  //     )
-  //   }
-  // }
+  if (alulu?.value && weekCount) {
+    if (typeof alulu.value === 'number' && alulu.value > weekCount) {
+      return await interaction.editReply(
+        `This week hasn't happened yet! The most recent Alulu tournament is week ${weekCount}.`
+      )
+    }
+  }
 
   const eventID = await getEventID(slug)
 

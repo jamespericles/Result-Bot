@@ -11,7 +11,14 @@ type MailOptionsType = {
   text: string
 }
 
-const generateEmailAlert = (mailOptions?: MailOptionsType): Promise<void> => {
+const generateEmailAlert = async (
+  mailOptions: MailOptionsType = {
+    from: SMTP_USERNAME as string,
+    to: SMTP_RECIPIENT as string,
+    subject: 'Alulu Bot has exited',
+    text: 'Alulu Bot has exited',
+  }
+): Promise<void> => {
   const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
@@ -21,15 +28,6 @@ const generateEmailAlert = (mailOptions?: MailOptionsType): Promise<void> => {
   })
 
   const sendMailPromise = new Promise((resolve, reject) => {
-    if (!mailOptions) {
-      mailOptions = {
-        from: SMTP_USERNAME as string,
-        to: SMTP_RECIPIENT as string,
-        subject: 'Alulu Bot has exited',
-        text: 'Alulu Bot has exited',
-      }
-    }
-
     transporter.sendMail(mailOptions, (err, info) => {
       if (err) {
         reject(err)
@@ -39,13 +37,12 @@ const generateEmailAlert = (mailOptions?: MailOptionsType): Promise<void> => {
     })
   })
 
-  return sendMailPromise
-    .then((info) => {
-      console.log('Email sent successfully!')
-    })
-    .catch((err) => {
-      console.error(err)
-    })
+  try {
+    const info_1 = await sendMailPromise
+    console.log('*** Alert email sent ***')
+  } catch (err_1) {
+    console.error(err_1)
+  }
 }
 
 export default generateEmailAlert

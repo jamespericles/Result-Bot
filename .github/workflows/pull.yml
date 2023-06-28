@@ -1,0 +1,26 @@
+name: Git Pull
+
+on:
+  workflow_dispatch:
+
+jobs:
+  pull-and-install:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install SSH client
+        run: sudo apt-get install -g ssh
+
+      - name: Add SSH key
+        uses: webfactory/ssh-agent@v0.5.0
+        with:
+          ssh-private-key: ${{ secrets.SERVER_SSH_KEY }}
+
+      - name: Pull from server
+        run: ssh root@45.63.66.64 'cd /root && git pull'
+
+      - name: Install dependencies
+        run: yarn install
