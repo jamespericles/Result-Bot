@@ -12,7 +12,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Install SSH client
-        run: sudo apt-get install -g ssh
+        run: sudo apt-get install -y ssh
 
       - name: Add SSH key
         uses: webfactory/ssh-agent@v0.5.0
