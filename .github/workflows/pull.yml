@@ -1,7 +1,9 @@
 name: Git Pull
 
 on:
-  workflow_dispatch:
+  push:
+    branches:
+      - main
 
 jobs:
   pull-and-install:
