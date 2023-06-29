@@ -2,7 +2,7 @@
 
 ## Description
 
-This bot is used to get the results for my local smash scene, [Alulu.](https://www.start.gg/tournament/alulu-135/details) The primary function of the bot is to query the start.gg API the day after the tournament is held, then to mention everyone in our results channel on discord with the top 3 placements. This function hasn't been built out yet, but the plan is for the bot to be hosted on Heroku and to work with a Cron job to run this function every Wednesday at 9am CST.
+This bot is used to get the results for my local smash scene, [Alulu.](https://www.start.gg/tournament/alulu-135/details) The primary function of the bot is to query the start.gg API the day after the tournament is held, then to mention everyone in our results channel on Discord with the top 3 placements. I've succeeded in doing this by utilizing [Cron](https://www.npmjs.com/package/cron) as well as by hosting the bot on an Ubuntu server with [Vultr](https://www.vultr.com/).
 
 The bot is written primarily in TypeScript, and uses [discord.js](https://discord.js.org/#/) as the library for interacting with Discord, as well as GraphQL to interact with the [start.gg](https://developer.start.gg) API.
 
@@ -27,7 +27,17 @@ The bot is written primarily in TypeScript, and uses [discord.js](https://discor
 
 Currently I'm hosting this project on [Vultr](https://www.vultr.com/) using their lowest specs (Cloud Compute, General Purpose Server, 25 GB NVMe). I also opted for Ubuntu 23.04 x64 as my OS.
 
-As it stands now, production related work leans heavily on secure shell (SSH) file transfers for the purpose of deployment. Additionally, SSH is utilized for remote server administration and management.
+Initially, production related work relied heavily on secure shell (SSH) file transfers for the purpose of deployment as well as for remote server administration and management. Recently, I've implemented a GitHub action that automates this process for me. Every time I push to `main`, the action automatically SSH into my server and pulls the latest changes from the repository. This has been a huge time saver for me, and I highly recommend learning GitHub actions if you haven't already! See the `.github/workflows/deploy.yml` file for more information.
+
+Additionally, I've created a rudimentary email alert system for whenever the bot exits with an error. This has been a huge help in ensuring that the bot is always live, as well as making my response time much quicker whenever it fails.
+
+## Additional Functionality
+
+### Commands
+
+The bot has a few commands that can be used in the Discord server. These commands are:
+
+- `/get_event_standing` - This command expects a week of Alulu to query, an optionally accepts the number of results you'd like to see, otherwise it returns the top 3 placements for that given tournament.
 
 ## Future Plans
 
