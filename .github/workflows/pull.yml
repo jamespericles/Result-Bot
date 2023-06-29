@@ -26,7 +26,7 @@ jobs:
         run: ssh -o StrictHostKeyChecking=no root@45.63.66.64 'cd /root/Result-Bot && git pull'
 
       - name: Install dependencies
-        run: yarn install
+        run: ssh -o StrictHostKeyChecking=no root@45.63.66.64 'cd /root/Result-Bot && yarn'
 
       - name: Restart server
         run: ssh -o StrictHostKeyChecking=no root@45.63.66.64 'cd /root/Result-Bot && yarn dev'
