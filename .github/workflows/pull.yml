@@ -29,4 +29,4 @@ jobs:
         run: ssh -o StrictHostKeyChecking=no root@45.63.66.64 'cd /root/Result-Bot && yarn'
 
       - name: Restart server
-        run: ssh -o StrictHostKeyChecking=no -o ConnectTimeout=30 root@45.63.66.64 'cd /root/Result-Bot && yarn dev'
+        run: ssh -o StrictHostKeyChecking=no -o ConnectTimeout=30 root@45.63.66.64 'cd /root/Result-Bot && yarn dev &'
