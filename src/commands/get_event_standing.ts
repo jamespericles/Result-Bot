@@ -17,11 +17,18 @@ export const data = new SlashCommandBuilder()
       .setDescription('Which Alulu tournament?')
       .setRequired(true)
   )
+  .addIntegerOption((option) =>
+    option
+      .setName('results')
+      .setDescription('How many results do you want to see? Defaults to 3')
+      .setRequired(false)
+  )
 
 export async function execute(interaction: CommandInteraction) {
   await interaction.deferReply({ ephemeral: true })
 
   const alulu = interaction.options.get('alulu')
+  const numberOfResults = interaction.options.get('results')
   const slug = `tournament/alulu-${alulu?.value}/event/ultimate-singles`
   const weekCount = parseInt(fs.readFileSync('WEEK_COUNT.txt', 'utf8'))
 
@@ -37,7 +44,9 @@ export async function execute(interaction: CommandInteraction) {
 
   if (eventID) {
     const eventStanding: EventData | Error | undefined = await getEventStanding(
-      eventID
+      eventID,
+      1,
+      numberOfResults?.value as number
     )
 
     if (eventStanding instanceof Error) {
