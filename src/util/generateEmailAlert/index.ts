@@ -12,13 +12,16 @@ type MailOptionsType = {
 }
 
 const generateEmailAlert = async (
-  mailOptions: MailOptionsType = {
+  subject: string,
+  text: string
+): Promise<void> => {
+  const mailOptions: MailOptionsType = {
     from: SMTP_USERNAME as string,
     to: SMTP_RECIPIENT as string,
-    subject: 'Alulu Bot has exited',
-    text: 'Alulu Bot has exited',
+    subject,
+    text,
   }
-): Promise<void> => {
+
   const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {

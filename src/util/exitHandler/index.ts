@@ -3,7 +3,10 @@ import generateEmailAlert from '../generateEmailAlert'
 async function exitHandler(evtOrExitCodeOrError: number | string | Error) {
   if (evtOrExitCodeOrError instanceof Error) {
     try {
-      await generateEmailAlert()
+      await generateEmailAlert(
+        'Alulu Bot has exited.',
+        JSON.stringify(evtOrExitCodeOrError)
+      )
     } catch (e) {
       console.error('EXIT HANDLER ERROR', e)
     }

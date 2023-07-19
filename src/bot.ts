@@ -41,6 +41,7 @@ function incrementWeekCount() {
 
 client.on('ready', async () => {
   const job = new CronJob('0 9 * * 3', async () => {
+    console.log('*** Cron job running ***')
     // 9am every Wednesday
     const weekCount = parseInt(fs.readFileSync('WEEK_COUNT.txt', 'utf8'))
     const channel = client.channels.cache.get(
@@ -69,6 +70,14 @@ client.on('ready', async () => {
         content: `@here Check out the results of Alulu-${weekCount}!`,
       })
       incrementWeekCount()
+
+      // DIAGNOSING CRON ***********
+      console.log('*** Posted Results ***')
+      generateEmailAlert(
+        'Results Sent!',
+        'Cron successfully fired, check discord.'
+      )
+      // DELETE WHEN RESOLVED ******
     }
   })
 
