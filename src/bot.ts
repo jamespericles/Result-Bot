@@ -1,16 +1,8 @@
-import { Client, GatewayIntentBits, TextChannel } from 'discord.js'
+import { Client, GatewayIntentBits } from 'discord.js'
 import config from './config'
 import * as commandModules from 'commands'
-import {
-  generateEmailAlert,
-  generateResultsPayload,
-  getEventID,
-  getEventStanding,
-  exitHandler,
-} from 'util/index'
-import { EventData } from 'types'
-import { CronJob } from 'cron'
-import fs from 'fs'
+import { exitHandler } from 'util/index'
+import job from 'jobs/index'
 import dotenv from 'dotenv'
 dotenv.config()
 
@@ -20,49 +12,13 @@ export const client = new Client({
   intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages],
 })
 
-function incrementWeekCount() {
-  let weekCount = parseInt(fs.readFileSync('WEEK_COUNT.txt', 'utf8'))
-  weekCount++
-
-  fs.writeFileSync('WEEK_COUNT.txt', weekCount.toString(), 'utf8')
-}
-
-const job = new CronJob('0 14 * * 3', async () => {
-  console.log('*** Cron job running ***')
-  // 9am every Wednesday
-  const weekCount = parseInt(fs.readFileSync('WEEK_COUNT.txt', 'utf8'))
-  const channel = client.channels.cache.get(
-    process.env.CHANNEL_ID as string
-  ) as TextChannel
-  const slug = `tournament/alulu-${weekCount}/event/ultimate-singles`
-
-  const eventID = await getEventID(slug)
-  const eventStanding: EventData | Error | undefined = await getEventStanding(
-    eventID
-  )
-
-  if (eventStanding instanceof Error) {
-    console.error(eventStanding)
-    return
-  }
-
-  if (eventStanding && eventStanding.data) {
-    const embed = generateResultsPayload(
-      weekCount.toString(),
-      slug,
-      eventStanding
-    )
-    channel.send({
-      embeds: [embed],
-      content: `@here Check out the results of Alulu-${weekCount}!`,
-    })
-    incrementWeekCount()
-  }
-})
-
 client.once('ready', () => {
   console.log('🤖 Bot is ready!')
-  job.start()
+  try {
+    job.start()
+  } catch (e) {
+    console.log(e)
+  }
   console.log('\u001b[31mCalled job start!\u001b[0m')
 })
 
@@ -77,4 +33,5 @@ client.on('interactionCreate', async (interaction: any) => {
 client.login(config.DISCORD_TOKEN)
 
 // Bind email alert to exit events
-process.on('exit', (code) => exitHandler(code))
+// process.on('exit', (code) => exitHandler(code))
+/*******REMOVE BEFORE PUSH********/
