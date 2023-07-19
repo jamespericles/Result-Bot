@@ -28,9 +28,50 @@ function incrementWeekCount() {
 }
 
 // @TODO Abstract the job out into a cron specific dir
-const job = new CronJob('0 9 * * 3', async () => {
-  console.log('*** Cron job running ***')
-  // 9am every Wednesday
+// const job = new CronJob('0 9 * * 3', async () => {
+//   console.log('*** Cron job running ***')
+//   // 9am every Wednesday
+//   const weekCount = parseInt(fs.readFileSync('WEEK_COUNT.txt', 'utf8'))
+//   const channel = client.channels.cache.get(
+//     process.env.CHANNEL_ID as string
+//   ) as TextChannel
+//   const slug = `tournament/alulu-${weekCount}/event/ultimate-singles`
+
+//   const eventID = await getEventID(slug)
+//   const eventStanding: EventData | Error | undefined = await getEventStanding(
+//     eventID
+//   )
+
+//   if (eventStanding instanceof Error) {
+//     console.error(eventStanding)
+//     return
+//   }
+
+//   if (eventStanding && eventStanding.data) {
+//     const embed = generateResultsPayload(
+//       weekCount.toString(),
+//       slug,
+//       eventStanding
+//     )
+//     channel.send({
+//       embeds: [embed],
+//       content: `@here Check out the results of Alulu-${weekCount}!`,
+//     })
+//     incrementWeekCount()
+
+//     // DIAGNOSING CRON ***********
+//     console.log('*** Posted Results ***')
+//     generateEmailAlert(
+//       'Results Sent!',
+//       'Cron successfully fired, check discord.'
+//     )
+//     // DELETE WHEN RESOLVED ******
+//   }
+// })
+
+client.once('ready', () => {
+  console.log('🤖 Bot is ready!')
+  // job.start()
   const weekCount = parseInt(fs.readFileSync('WEEK_COUNT.txt', 'utf8'))
   const channel = client.channels.cache.get(
     process.env.CHANNEL_ID as string
@@ -57,22 +98,7 @@ const job = new CronJob('0 9 * * 3', async () => {
       embeds: [embed],
       content: `@here Check out the results of Alulu-${weekCount}!`,
     })
-    incrementWeekCount()
-
-    // DIAGNOSING CRON ***********
-    console.log('*** Posted Results ***')
-    generateEmailAlert(
-      'Results Sent!',
-      'Cron successfully fired, check discord.'
-    )
-    // DELETE WHEN RESOLVED ******
-  }
-})
-
-client.once('ready', () => {
-  console.log('🤖 Bot is ready!')
-  job.start()
-  console.log('\u001b[31mCalled job start!\u001b[0m')
+  // console.log('\u001b[31mCalled job start!\u001b[0m')
 })
 
 client.on('interactionCreate', async (interaction: any) => {
