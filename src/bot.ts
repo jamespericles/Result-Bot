@@ -20,8 +20,59 @@ export const client = new Client({
   intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages],
 })
 
+function incrementWeekCount() {
+  let weekCount = parseInt(fs.readFileSync('WEEK_COUNT.txt', 'utf8'))
+  weekCount++
+
+  fs.writeFileSync('WEEK_COUNT.txt', weekCount.toString(), 'utf8')
+}
+
+// @TODO Abstract the job out into a cron specific dir
+const job = new CronJob('0 9 * * 3', async () => {
+  console.log('*** Cron job running ***')
+  // 9am every Wednesday
+  const weekCount = parseInt(fs.readFileSync('WEEK_COUNT.txt', 'utf8'))
+  const channel = client.channels.cache.get(
+    process.env.CHANNEL_ID as string
+  ) as TextChannel
+  const slug = `tournament/alulu-${weekCount}/event/ultimate-singles`
+
+  const eventID = await getEventID(slug)
+  const eventStanding: EventData | Error | undefined = await getEventStanding(
+    eventID
+  )
+
+  if (eventStanding instanceof Error) {
+    console.error(eventStanding)
+    return
+  }
+
+  if (eventStanding && eventStanding.data) {
+    const embed = generateResultsPayload(
+      weekCount.toString(),
+      slug,
+      eventStanding
+    )
+    channel.send({
+      embeds: [embed],
+      content: `@here Check out the results of Alulu-${weekCount}!`,
+    })
+    incrementWeekCount()
+
+    // DIAGNOSING CRON ***********
+    console.log('*** Posted Results ***')
+    generateEmailAlert(
+      'Results Sent!',
+      'Cron successfully fired, check discord.'
+    )
+    // DELETE WHEN RESOLVED ******
+  }
+})
+
 client.once('ready', () => {
   console.log('🤖 Bot is ready!')
+  job.start()
+  console.log('\u001b[31mCalled job start!\u001b[0m')
 })
 
 client.on('interactionCreate', async (interaction: any) => {
@@ -30,58 +81,6 @@ client.on('interactionCreate', async (interaction: any) => {
   // Handles spreading each command from our commands object
   const { commandName } = interaction
   commands[commandName].execute(interaction, client)
-})
-
-function incrementWeekCount() {
-  let weekCount = parseInt(fs.readFileSync('WEEK_COUNT.txt', 'utf8'))
-  weekCount++
-
-  fs.writeFileSync('WEEK_COUNT.txt', weekCount.toString(), 'utf8')
-}
-
-client.on('ready', async () => {
-  const job = new CronJob('0 9 * * 3', async () => {
-    console.log('*** Cron job running ***')
-    // 9am every Wednesday
-    const weekCount = parseInt(fs.readFileSync('WEEK_COUNT.txt', 'utf8'))
-    const channel = client.channels.cache.get(
-      process.env.CHANNEL_ID as string
-    ) as TextChannel
-    const slug = `tournament/alulu-${weekCount}/event/ultimate-singles`
-
-    const eventID = await getEventID(slug)
-    const eventStanding: EventData | Error | undefined = await getEventStanding(
-      eventID
-    )
-
-    if (eventStanding instanceof Error) {
-      console.error(eventStanding)
-      return
-    }
-
-    if (eventStanding && eventStanding.data) {
-      const embed = generateResultsPayload(
-        weekCount.toString(),
-        slug,
-        eventStanding
-      )
-      channel.send({
-        embeds: [embed],
-        content: `@here Check out the results of Alulu-${weekCount}!`,
-      })
-      incrementWeekCount()
-
-      // DIAGNOSING CRON ***********
-      console.log('*** Posted Results ***')
-      generateEmailAlert(
-        'Results Sent!',
-        'Cron successfully fired, check discord.'
-      )
-      // DELETE WHEN RESOLVED ******
-    }
-  })
-
-  job.start()
 })
 
 client.login(config.DISCORD_TOKEN)

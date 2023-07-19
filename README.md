@@ -37,7 +37,7 @@ Additionally, I've created a rudimentary email alert system for whenever the bot
 
 The bot has a few commands that can be used in the Discord server. These commands are:
 
-- `/get_event_standing` - This command expects a week of Alulu to query, an optionally accepts the number of results you'd like to see, otherwise it returns the top 3 placements for that given tournament.
+- `/get_event_standing` - This command expects a week of Alulu to query, and optionally accepts the number of results you'd like to see, otherwise it returns the top 3 placements for that given tournament.
 
 ## Future Plans
 
