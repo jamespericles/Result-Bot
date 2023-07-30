@@ -89,7 +89,6 @@ const getTournamentsByCoord = async (
     }
   }
 
-  console.log(res)
   return res
 }
 
