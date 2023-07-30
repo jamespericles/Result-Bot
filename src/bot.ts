@@ -33,4 +33,4 @@ client.on('interactionCreate', async (interaction: any) => {
 client.login(config.DISCORD_TOKEN)
 
 // Bind email alert to exit events
-// process.on('exit', (code) => exitHandler(code))
+process.on('exit', (code) => exitHandler(code))
