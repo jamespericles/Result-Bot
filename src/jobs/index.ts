@@ -1,8 +1,8 @@
 import { TextChannel } from 'discord.js'
 import {
   generateResultsPayload,
-  getEventID,
   getEventStanding,
+  getTournamentsByCoord,
 } from 'util/index'
 import { client } from 'bot'
 import { EventData } from 'types'
@@ -27,13 +27,20 @@ const job = new CronJob(
     const channel = client.channels.cache.get(
       process.env.CHANNEL_ID as string
     ) as TextChannel
-    const slug = `tournament/alulu-${weekCount}/event/ultimate-singles`
 
-    const eventID = await getEventID(slug)
-    const eventStanding: EventData | Error | undefined = await getEventStanding(
-      eventID
+    const { id, name } = await getTournamentsByCoord(
+      1,
+      '41.85488981724496,-87.66285400268926',
+      '1mi',
+      weekCount
     )
 
+    if (id === null) return console.error('No tournament found')
+    const eventStanding: EventData | Error | undefined = await getEventStanding(
+      id
+    )
+
+    const slug = `tournament/${name}/event/ultimate-singles`
     if (eventStanding instanceof Error) {
       console.error(eventStanding)
       return

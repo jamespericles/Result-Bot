@@ -11,9 +11,9 @@ const fetch = (...args) =>
 const { STARTGG_KEY, STARTGG_URI } = process.env
 
 const getEventStanding = async (
-  eventID: number,
+  eventId: number,
   page: number = 1,
-  perPage: number = 3
+  perPage: number = 8
 ): Promise<GetEventStandingReturnType> => {
   if (STARTGG_KEY && STARTGG_URI) {
     const query = queryString.default?.loc?.source?.body
@@ -29,7 +29,7 @@ const getEventStanding = async (
         body: JSON.stringify({
           query,
           variables: {
-            eventId: eventID,
+            eventId,
             page,
             perPage,
           },

@@ -8,7 +8,7 @@ const generateResultsPayload = (
 ): EmbedBuilder => {
   const embed = new EmbedBuilder()
     .setColor(0xefff00)
-    .setTitle(`Week ${week} | Ultimate Singles Top 3`)
+    .setTitle(`Week ${week} | Ultimate Singles Top 8`)
     .setURL(`https://start.gg/${slug}`)
 
   if (eventStanding.data) {
