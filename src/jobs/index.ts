@@ -54,7 +54,7 @@ const job = new CronJob(
       )
       channel.send({
         embeds: [embed],
-        content: `@here Check out the results of Alulu-${weekCount}!`,
+        content: `@everyone Check out the results of Alulu-${weekCount}!`,
       })
       incrementWeekCount()
     }
