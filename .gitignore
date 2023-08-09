@@ -20,3 +20,6 @@ notes.md
 .flaskenv*
 !.env.project
 !.env.vault
+
+# Testing
+coverage/
