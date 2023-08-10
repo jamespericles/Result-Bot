@@ -16,7 +16,7 @@ const getEventStanding = async (
   perPage: number = 8
 ): Promise<GetEventStandingReturnType> => {
   if (STARTGG_KEY && STARTGG_URI) {
-    const query = queryString.default?.loc?.source?.body
+    const query = queryString.default!.loc!.source!.body
 
     if (query) {
       const response = await fetch(STARTGG_URI, {
