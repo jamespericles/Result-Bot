@@ -1,5 +1,4 @@
 import { getEventStanding } from 'util/index'
-import { GetEventStandingReturnType } from 'types'
 
 describe('getEventStanding', () => {
   const mockResponse = {
