@@ -1,3 +1,5 @@
 export { default as getEventStanding } from './getEventStanding'
 export { default as getEventID } from './getEventID'
 export { default as getTournamentsByCoord } from './getTournamentsByCoord'
+export { default as getSelectionValByGame } from './getSelectionValByGame'
+export { default as getCharacters } from './getCharacters'

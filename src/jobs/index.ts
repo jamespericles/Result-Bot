@@ -3,9 +3,11 @@ import {
   generateResultsPayload,
   getEventStanding,
   getTournamentsByCoord,
+  generateTop8er,
+  getSelectionValByGame,
 } from 'util/index'
 import { client } from 'bot'
-import { EventData } from 'types'
+import { Standings } from 'util/getEventStanding'
 import fs from 'fs'
 import dotenv from 'dotenv'
 import { CronJob } from 'cron'
@@ -36,27 +38,52 @@ const job = new CronJob(
     )
 
     if (id === null) return console.error('No tournament found')
-    const eventStanding: EventData | Error | undefined = await getEventStanding(
-      id
-    )
 
     const slug = `tournament/${name}/event/ultimate-singles`
+    // @TODO - This can be bypassed, getEventStanding can take the slug
+    const eventStanding: Standings | Error | undefined = await getEventStanding(
+      id
+    )
+    const selectionSample = await getSelectionValByGame(slug)
+
     if (eventStanding instanceof Error) {
       console.error(eventStanding)
       return
     }
 
-    if (eventStanding && eventStanding.data) {
-      const embed = generateResultsPayload(
-        weekCount.toString(),
-        slug,
-        eventStanding
-      )
-      channel.send({
-        embeds: [embed],
-        content: `@everyone Check out the results of Alulu-${weekCount}!`,
-      })
-      incrementWeekCount()
+    if (selectionSample instanceof Error) {
+      console.error(selectionSample)
+      return
+    }
+
+    if (eventStanding && selectionSample) {
+      const top8er = await generateTop8er(eventStanding, selectionSample)
+
+      if (top8er && top8er.success) {
+        const embed = generateResultsPayload(
+          weekCount.toString(),
+          slug,
+          eventStanding
+        )
+        channel.send({
+          embeds: [embed],
+          content: `@everyone Check out the results of Alulu-${weekCount}!`,
+          files: ['top8er.png'],
+        })
+
+        incrementWeekCount()
+      } else {
+        const embed = generateResultsPayload(
+          weekCount.toString(),
+          slug,
+          eventStanding
+        )
+        channel.send({
+          embeds: [embed],
+          content: `@everyone Check out the results of Alulu-${weekCount}!`,
+        })
+        incrementWeekCount()
+      }
     }
   },
   null,

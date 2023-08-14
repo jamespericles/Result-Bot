@@ -5,8 +5,8 @@ import {
   getEventStanding,
   generateResultsPayload,
 } from 'util/index'
+import { Standings } from 'util/getEventStanding'
 import fs from 'fs'
-import { EventData } from 'types'
 
 export const data = new SlashCommandBuilder()
   .setName('get_event_standing')
@@ -43,7 +43,7 @@ export async function execute(interaction: CommandInteraction) {
   const eventID = await getEventID(slug)
 
   if (eventID) {
-    const eventStanding: EventData | Error | undefined = await getEventStanding(
+    const eventStanding: Standings | Error | undefined = await getEventStanding(
       eventID,
       1,
       numberOfResults?.value as number
@@ -58,7 +58,7 @@ export async function execute(interaction: CommandInteraction) {
       )
     }
 
-    if (eventStanding && eventStanding.data) {
+    if (eventStanding) {
       const embed = generateResultsPayload(
         alulu?.value as string,
         slug,
