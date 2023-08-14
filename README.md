@@ -4,7 +4,7 @@
 
 This bot is used to get the results for my local smash scene, [Alulu.](https://www.start.gg/tournament/alulu-135/details) The primary function of the bot is to query the start.gg API the day after the tournament is held, then to mention everyone in our results channel on Discord with the top 8 placements. I've succeeded in doing this by utilizing [Cron](https://www.npmjs.com/package/cron) as well as by hosting the bot on an Ubuntu server with [Vultr](https://www.vultr.com/).
 
-Recently, I integrated the [Top8er](https://github.com/ShonTitor/Top8er) API so that I could generate a top 8 graphic along with the usual top 8 placements message. A big thank you to @ShonTitor for explaining their project and API to me, as well as helping me realize this new exciting feature!
+Recently, I integrated the [Top8er](https://github.com/ShonTitor/Top8er) API so that I could generate a top 8 graphic along with the usual top 8 placements message. A big thank you to [@ShonTitor](https://github.com/ShonTitor) for explaining their project and API to me, as well as helping me realize this new exciting feature!
 
 The bot is written primarily in TypeScript, and uses [discord.js](https://discord.js.org/#/) as the library for interacting with Discord, as well as GraphQL to interact with the [start.gg](https://developer.start.gg) API.
 
