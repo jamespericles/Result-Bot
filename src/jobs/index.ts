@@ -21,7 +21,8 @@ function incrementWeekCount() {
 }
 
 const job = new CronJob(
-  '0 9 * * 3',
+  // '0 9 * * 3',
+  '*/5 * * * * *',
   async () => {
     console.log('*** Cron job running ***')
     // 9am every Wednesday
@@ -68,7 +69,7 @@ const job = new CronJob(
         channel.send({
           embeds: [embed],
           content: `@everyone Check out the results of Alulu-${weekCount}!`,
-          files: ['top8er.png'],
+          files: ['graphic.png'],
         })
 
         incrementWeekCount()
@@ -91,4 +92,5 @@ const job = new CronJob(
   'America/Chicago'
 )
 
+job.stop()
 export default job

@@ -13,17 +13,16 @@ const fetch = (...args) =>
 
 const { TOP8ER_URI } = process.env
 
-interface GenerateImageResult {
-  success: true
-  image: Base64String
-}
-
-interface GenerateImageError {
-  success: false
-  error: Error
-}
-
-type GenerateImageResponse = GenerateImageResult | GenerateImageError
+type GenerateImageResponse =
+  | {
+      success: true
+      image: Base64String
+    }
+  | {
+      success: false
+      error: Error
+      image?: never
+    }
 
 const generateTop8er = async (
   eventStanding: Standings,
@@ -93,7 +92,7 @@ const generateTop8er = async (
       const buffer = Buffer.from(base64Data, 'base64')
 
       // Write the buffer to a file
-      fs.writeFile('top8er.png', buffer, (err) => {
+      fs.writeFile('graphic.png', buffer, (err) => {
         if (err) {
           console.error(err)
         } else {
