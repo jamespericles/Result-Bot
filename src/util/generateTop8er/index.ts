@@ -26,7 +26,8 @@ type GenerateImageResponse =
 
 const generateTop8er = async (
   eventStanding: Standings,
-  selectionSample: Selections[]
+  selectionSample: Selections[],
+  week: string | number
 ): Promise<GenerateImageResponse | undefined> => {
   const characterArray = (await getCharacters()) as Characters
   if (eventStanding && selectionSample && characterArray) {
@@ -78,22 +79,22 @@ const generateTop8er = async (
       },
       body: JSON.stringify({
         players: merged,
-        // @TODO - Make this dynamic, double check with Riokaru this actually works
         options: {
-          toptext: 'Smash League Top Network - 1vs1 Super Smash Ultimate',
-          url: 'https://www.start.gg/tournament/smash-league-top-network',
-          bottomtext: '2023/07/29 - San Diego - 45 Participantes',
-          layoutcolor: '#df2c3b',
-          fontcolor: '#ffffff',
-          fontcolor2: '#ffffff',
-          fontshadowcolor: '#000000',
-          fontshadowcolor2: '#000000',
-          mainfont: null,
           blacksquares: true,
           charshadow: true,
           textshadow: true,
-          darkenbg: false,
-          layout: true,
+          darkenbg: true,
+          topleft: `Alulu-${week}`,
+          topright: 'Ultimate Singles',
+          bottomleft: '',
+          numbers: 'default', // default | prmode | cleanmode = no numbers
+          layoutcolor: '#df2c3b', // boxes around characters, top left bottom right corners
+          layoutcolor2: '#ffb60c', // smaller swoosh in top left and bottom right
+          fontcolor: '#ffffff', // placement number, player name
+          fontcolor2: '#ffffff', // top text, bottom text
+          fontshadowcolor: '#000000', // placement number, player name (shadows)
+          fontshadowcolor2: '#000000', // top text, bottom text (shadows)
+          // font: 'Arial',
         },
       }),
     })

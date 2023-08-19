@@ -57,7 +57,11 @@ const job = new CronJob(
     }
 
     if (eventStanding && selectionSample) {
-      const top8er = await generateTop8er(eventStanding, selectionSample)
+      const top8er = await generateTop8er(
+        eventStanding,
+        selectionSample,
+        weekCount
+      )
 
       if (top8er && top8er.success) {
         const embed = generateResultsPayload(
