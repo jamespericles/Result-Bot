@@ -30,13 +30,36 @@ const generateTop8er = async (
 ): Promise<GenerateImageResponse | undefined> => {
   const characterArray = (await getCharacters()) as Characters
   if (eventStanding && selectionSample && characterArray) {
+    const mostFrequentSelections = new Map<number, number | null>()
+
     const merged = eventStanding.map((standing) => {
-      const selection = selectionSample.find(
-        (s) => s.id === standing.entrant.id
+      const playerId = standing.entrant.id
+      const selectionsForPlayer = selectionSample.filter(
+        (s) => s.id === playerId
       )
 
+      let mostFrequentSelection: number | null = null
+      let maxCount = 0
+      const selectionCountMap = new Map<number, number>()
+
+      selectionsForPlayer.forEach((selection) => {
+        const selectionValue = selection.selectionValue
+        if (selectionValue !== null) {
+          const currentCount = selectionCountMap.get(selectionValue) || 0
+          const newCount = currentCount + 1
+          selectionCountMap.set(selectionValue, newCount)
+
+          if (newCount > maxCount) {
+            maxCount = newCount
+            mostFrequentSelection = selectionValue
+          }
+        }
+      })
+
+      mostFrequentSelections.set(playerId, mostFrequentSelection)
+
       const character = characterArray.find(
-        (c) => c.id === selection?.selectionValue
+        (c) => c.id === mostFrequentSelection
       )
 
       return {
@@ -76,6 +99,7 @@ const generateTop8er = async (
     })
 
     // TODO: Can I pass in the status code like this?
+
     if (res.status !== 200)
       return { success: false, error: new Error(`Error: ${res.status}`) }
 
