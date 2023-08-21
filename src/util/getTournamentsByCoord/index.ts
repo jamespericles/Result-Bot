@@ -27,7 +27,7 @@ type ReturnType = {
   name: string | null
 }
 
-const sanitizeSlug = (input: string): string => {
+export const sanitizeSlug = (input: string): string => {
   // Remove special characters except hyphens
   const withoutSpecialChars = input.replace(/[^a-zA-Z0-9-]/g, ' ')
 
@@ -52,7 +52,7 @@ const getTournamentsByCoord = async (
   }
 
   if (STARTGG_KEY && STARTGG_URI) {
-    const query = queryString.default?.loc?.source?.body
+    const query = queryString.default!.loc!.source!.body
 
     if (query) {
       const response = await fetch(STARTGG_URI, {

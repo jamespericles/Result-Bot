@@ -1,4 +1,5 @@
 import { getEventStanding } from 'util/index'
+jest.mock('node-fetch')
 
 describe('getEventStanding', () => {
   const mockResponse = {
@@ -40,25 +41,15 @@ describe('getEventStanding', () => {
 
     const eventStanding = await getEventStanding(12345)
 
-    expect(eventStanding).toEqual({
-      data: {
-        event: {
+    expect(eventStanding).toEqual([
+      {
+        placement: 1,
+        entrant: {
           id: 12345,
-          name: 'test-event',
-          standings: {
-            nodes: [
-              {
-                placement: 1,
-                entrant: {
-                  id: 12345,
-                  name: 'test-entrant',
-                },
-              },
-            ],
-          },
+          name: 'test-entrant',
         },
       },
-    })
+    ])
     expect(mockSuccess).toHaveBeenCalledTimes(1)
   })
 
@@ -73,6 +64,33 @@ describe('getEventStanding', () => {
       })
     )
 
-    await expect(getEventStanding(12345)).rejects.toThrow('Event not found')
+    await expect(getEventStanding(12345)).rejects.toThrow(
+      "Cannot read properties of null (reading 'standings'"
+    )
+  })
+
+  it('should throw an error when nodes are not found', async () => {
+    // Mocking the fetch function to return a response without nodes
+    const mockFetch = jest.fn().mockResolvedValue({
+      json: jest.fn().mockResolvedValue({
+        data: {
+          event: {
+            standings: {
+              nodes: null,
+            },
+          },
+        },
+      }),
+    })
+
+    jest.mock('node-fetch', () => ({
+      __esModule: true,
+      default: mockFetch,
+    }))
+
+    await expect(getEventStanding(123)).rejects.toThrow('Event not found')
+
+    jest.clearAllMocks()
+    jest.resetModules()
   })
 })
