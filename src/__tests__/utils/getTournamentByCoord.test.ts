@@ -15,26 +15,6 @@ describe('getTournamentByCoord', () => {
     delete process.env.STARTGG_URI
   })
 
-  // jest.mock('node-fetch', () => {
-  //   return jest.fn().mockImplementation(() => {
-  //     return Promise.resolve(
-  //       new Response(
-  //         JSON.stringify({
-  //           data: {
-  //             tournaments: {
-  //               nodes: [
-  //                 {
-  //                   id: 1,
-  //                   name: 'test-tournament',
-  //                 },
-  //               ],
-  //             },
-  //           },
-  //         })
-  //       )
-  //     )
-  //   })
-  // })
   const mockResponse = {
     json: jest.fn().mockResolvedValue({
       data: {
@@ -63,7 +43,7 @@ describe('getTournamentByCoord', () => {
     const spy = jest.spyOn(getEventID, 'default')
     spy.mockResolvedValue(946457)
     const { id, name } = await getTournamentsByCoord(
-      1,
+      undefined, // This covers the page defaulting to 1 in the call signature
       '41.85488981724496,-87.66285400268926',
       '1mi',
       138

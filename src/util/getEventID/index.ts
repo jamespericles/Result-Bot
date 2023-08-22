@@ -19,7 +19,6 @@ type EventData = {
 }
 
 const getEventID = async (eventSlug: string): Promise<number> => {
-  console.log('eventSlug:', eventSlug)
   let eventID: number = 0
 
   if (STARTGG_KEY && STARTGG_URI) {
