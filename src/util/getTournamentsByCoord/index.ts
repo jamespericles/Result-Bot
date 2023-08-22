@@ -73,6 +73,7 @@ const getTournamentsByCoord = async (
       })
 
       const { data } = (await response.json()) as TournamentData
+
       if (data.tournaments.nodes) {
         for (const node of data.tournaments.nodes) {
           if (node.name.includes('Alulu') && node.name.includes(`#${week}`)) {

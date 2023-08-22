@@ -1,61 +1,76 @@
 import { getTournamentsByCoord } from 'util/index'
+import * as getEventID from 'util/getEventID'
 import { sanitizeSlug } from 'util/getTournamentsByCoord'
-jest.mock('node-fetch')
+// jest.mock('node-fetch')
 
 describe('getTournamentByCoord', () => {
-  jest.mock('dotenv', () => ({
-    config: jest.fn(),
-  }))
-  process.env.STARTGG_KEY = 'test-key'
-  process.env.STARTGG_URI = 'test-uri'
-
-  jest.mock('node-fetch', () => {
-    return jest.fn().mockImplementation(() => {
-      return Promise.resolve(
-        new Response(
-          JSON.stringify({
-            data: {
-              tournaments: {
-                nodes: [
-                  {
-                    id: 1,
-                    name: 'test-tournament',
-                  },
-                ],
-              },
-            },
-          })
-        )
-      )
-    })
+  beforeEach(() => {
+    jest.resetModules()
+    process.env.STARTGG_KEY = 'test-key'
+    process.env.STARTGG_URI = 'https://example.com/graphql'
   })
 
-  it('should return data', async () => {
-    const mockResponse = {
-      json: jest.fn().mockResolvedValue({
-        data: {
-          tournaments: {
-            nodes: [
-              {
-                id: 1,
-                name: 'Alulu Tournament #1',
-              },
-            ],
-          },
-        },
-      }),
-    }
-    const mockSuccess = jest.fn().mockResolvedValue(mockResponse)
-    jest.mock('node-fetch', () => mockSuccess)
+  afterEach(() => {
+    delete process.env.STARTGG_KEY
+    delete process.env.STARTGG_URI
+  })
 
-    const result = await getTournamentsByCoord(
+  // jest.mock('node-fetch', () => {
+  //   return jest.fn().mockImplementation(() => {
+  //     return Promise.resolve(
+  //       new Response(
+  //         JSON.stringify({
+  //           data: {
+  //             tournaments: {
+  //               nodes: [
+  //                 {
+  //                   id: 1,
+  //                   name: 'test-tournament',
+  //                 },
+  //               ],
+  //             },
+  //           },
+  //         })
+  //       )
+  //     )
+  //   })
+  // })
+  const mockResponse = {
+    json: jest.fn().mockResolvedValue({
+      data: {
+        tournaments: {
+          nodes: [
+            {
+              id: 946457,
+              name: 'Alulu #138',
+              city: 'Chicago',
+            },
+          ],
+        },
+      },
+    }),
+  }
+
+  const mockFetch = jest.fn().mockResolvedValue(mockResponse)
+
+  jest.mock('node-fetch', () => ({
+    __esModule: true,
+    default: mockFetch,
+  }))
+
+  it('should return data', async () => {
+    // Mock the nested getEventID call
+    const spy = jest.spyOn(getEventID, 'default')
+    spy.mockResolvedValue(946457)
+    const { id, name } = await getTournamentsByCoord(
       1,
-      'test-coordinates',
-      'test-radius',
-      'test-week'
+      '41.85488981724496,-87.66285400268926',
+      '1mi',
+      138
     )
 
-    console.log(result)
+    expect(name).toBe('alulu-138')
+    expect(id).toBe(946457)
   })
 
   it('should return null if no matching tournament is found', async () => {
