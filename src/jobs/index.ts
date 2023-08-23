@@ -21,7 +21,7 @@ function incrementWeekCount() {
 }
 
 const job = new CronJob(
-  '0 9 * * 3',
+  '*/5 * * * * *',
   async () => {
     console.log('*** Cron job running ***')
     // 9am every Wednesday
@@ -44,6 +44,7 @@ const job = new CronJob(
     const eventStanding: Standings | Error | undefined = await getEventStanding(
       id
     )
+
     const selectionSample = await getSelectionValByGame(slug)
 
     if (eventStanding instanceof Error) {
@@ -75,7 +76,7 @@ const job = new CronJob(
           files: ['graphic.png'],
         })
 
-        incrementWeekCount()
+        // incrementWeekCount()
       } else {
         const embed = generateResultsPayload(
           weekCount.toString(),
@@ -86,7 +87,7 @@ const job = new CronJob(
           embeds: [embed],
           content: `@everyone Check out the results of Alulu-${weekCount}!`,
         })
-        incrementWeekCount()
+        // incrementWeekCount()
       }
     }
   },
