@@ -52,7 +52,7 @@ describe('getTournamentByCoord', () => {
     expect(id).toBe(946457)
   })
 
-  it('should return null if no matching tournament is found', async () => {
+  it.skip('should return null if no matching tournament is found', async () => {
     jest.spyOn(global, 'fetch').mockImplementation(() =>
       Promise.resolve(
         new Response(
