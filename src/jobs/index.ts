@@ -21,7 +21,7 @@ function incrementWeekCount() {
 }
 
 const job = new CronJob(
-  '*/5 * * * * *',
+  '0 9 * * 3',
   async () => {
     console.log('*** Cron job running ***')
     // 9am every Wednesday
@@ -76,7 +76,7 @@ const job = new CronJob(
           files: ['graphic.png'],
         })
 
-        // incrementWeekCount()
+        incrementWeekCount()
       } else {
         const embed = generateResultsPayload(
           weekCount.toString(),
@@ -87,7 +87,7 @@ const job = new CronJob(
           embeds: [embed],
           content: `@everyone Check out the results of Alulu-${weekCount}!`,
         })
-        // incrementWeekCount()
+        incrementWeekCount()
       }
     }
   },
