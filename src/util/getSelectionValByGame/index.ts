@@ -73,22 +73,24 @@ const getSelectionValByGame = async (
       let result: Selections[] = []
 
       nodes.forEach((node) => {
-        node.games.forEach((game) => {
-          game.selections.forEach((selection) => {
-            let obj: Selections = {
-              selectionValue: null,
-              id: null,
-              name: null,
-            }
-            obj.selectionValue = selection.selectionValue
-            selection.entrant.participants.forEach((participant) => {
-              obj.id = participant.entrants[0].id
-              obj.name = participant.entrants[0].name
+        if (node.games) {
+          node.games.forEach((game) => {
+            game.selections.forEach((selection) => {
+              let obj: Selections = {
+                selectionValue: null,
+                id: null,
+                name: null,
+              }
+              obj.selectionValue = selection.selectionValue
+              selection.entrant.participants.forEach((participant) => {
+                obj.id = participant.entrants[0].id
+                obj.name = participant.entrants[0].name
 
-              result.push(obj)
+                result.push(obj)
+              })
             })
           })
-        })
+        }
       })
 
       return result

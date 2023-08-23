@@ -63,10 +63,15 @@ const generateTop8er = async (
         (c) => c.id === mostFrequentSelection
       )
 
+      // Top8er API has Simon Belmont as Simon
+      const characterName = character?.name ?? 'Random'
+      const sanitizedCharacterName =
+        characterName === 'Simon Belmont' ? 'Simon' : characterName
+
       return {
         name: standing.entrant.name,
         social: '',
-        character: [[character?.name ?? 'Random', 0], null, null],
+        character: [[sanitizedCharacterName, 0], null, null],
         flag: [null, null],
       }
     })
@@ -99,10 +104,11 @@ const generateTop8er = async (
       }),
     })
 
-    // TODO: Can I pass in the status code like this?
-
     if (res.status !== 200)
-      return { success: false, error: new Error(`Error: ${res.status}`) }
+      return {
+        success: false,
+        error: new Error(`Error: ${res.status}`),
+      }
 
     if (res.status === 200) {
       const { base64_img } = (await res.json()) as { base64_img: string }

@@ -44,6 +44,7 @@ const job = new CronJob(
     const eventStanding: Standings | Error | undefined = await getEventStanding(
       id
     )
+
     const selectionSample = await getSelectionValByGame(slug)
 
     if (eventStanding instanceof Error) {
