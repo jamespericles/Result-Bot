@@ -10,9 +10,19 @@ on:
 jobs:
   Jest:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [16.10.0]
+        yarn-version: [1.22.19]
     steps:
       - uses: actions/checkout@v1
-      - name: Run Tests
+      - name: Set up Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Install Dependencies
         run: |
-          npm install 
-          npm test
+          npm install -g npm@${{ matrix.yarn-version }}
+          npm install
+      - name: Run Tests
+        run: npm test
