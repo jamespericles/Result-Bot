@@ -13,6 +13,14 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
+        with:
+          # Exclude the dist directory from the checkout
+          path: ${{ github.workspace }}/
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+          lfs: true
+          submodules: 'recursive'
+          exclude: 'dist'
 
       - name: Set Up Node.js
         uses: actions/setup-node@v2
