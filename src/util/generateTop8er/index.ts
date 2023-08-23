@@ -104,11 +104,10 @@ const generateTop8er = async (
       }),
     })
 
-    const resBody = await res.text()
     if (res.status !== 200)
       return {
         success: false,
-        error: new Error(`Error: ${res.status}\n${resBody}`),
+        error: new Error(`Error: ${res.status}`),
       }
 
     if (res.status === 200) {
