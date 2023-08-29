@@ -18,4 +18,4 @@ jobs:
           node-version: 16.x
       - run: npm install -g yarn
       - run: yarn install
-      - run: yarn jest --verbose --maxWorkers=2 --runInBand
+      - run: yarn jest --verbose --runInBand
