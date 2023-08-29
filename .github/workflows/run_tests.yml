@@ -1,28 +1,21 @@
 name: Run Jest Tests
 
 on:
-  pull_request:
-    types: [opened, reopened, synchronize]
-    branches:
-      - main
   push:
-    branches:
-      - main
+    branches: [main]
+  pull_request:
+    branches: [main]
 
 jobs:
-  nodejs:
-    name: Example Action
-    runs-on: ubuntu-latest
-    timeout-minutes: 20
+  build:
+    runs-on: Ubuntu 23.04 x64
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: Set Node Version
+      - uses: actions/checkout@v2
+      - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: 16.11.0
-      - name: yarn install
-        run: yarn install
-      - name: yarn coverage
-        run: yarn test --coverage
+          node-version: 16.x
+      - run: npm install -g yarn
+      - run: yarn install
+      - run: yarn test
