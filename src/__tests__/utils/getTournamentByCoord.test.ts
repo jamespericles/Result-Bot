@@ -1,7 +1,6 @@
 import { getTournamentsByCoord } from 'util/index'
 import * as getEventID from 'util/getEventID'
 import { sanitizeSlug } from 'util/getTournamentsByCoord'
-import fetch from 'jest-fetch-mock'
 
 describe('getTournamentByCoord', () => {
   beforeEach(() => {
