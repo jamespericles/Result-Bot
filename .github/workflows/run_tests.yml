@@ -15,7 +15,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: 16.x
+          node-version: 16.16.0
       - run: npm install -g yarn
       - run: yarn install
-      - run: yarn jest --verbose --maxWorkers=2 --runInBand
+      - run: yarn jest --verbose
