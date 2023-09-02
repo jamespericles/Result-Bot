@@ -10,12 +10,16 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    env:
+      STARTGG_KEY: ${{ secrets.STARTGG_KEY }}}
+      STARTGG_URI: ${{ secrets.STARTGG_URI }}}
+
     steps:
       - uses: actions/checkout@v2
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: 16.16.0
+          node-version: 16.x
       - run: npm install -g yarn
       - run: yarn install
-      - run: yarn jest --verbose
+      - run: yarn test
