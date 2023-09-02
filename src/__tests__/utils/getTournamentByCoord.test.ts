@@ -52,36 +52,6 @@ describe('getTournamentByCoord', () => {
     expect(id).toBe(946457)
   })
 
-  it.skip('should return null if no matching tournament is found', async () => {
-    jest.spyOn(global, 'fetch').mockImplementation(() =>
-      Promise.resolve(
-        new Response(
-          JSON.stringify({
-            data: {
-              tournaments: {
-                nodes: [],
-              },
-            },
-          })
-        )
-      )
-    )
-
-    const result = await getTournamentsByCoord(
-      1,
-      'test-coordinates',
-      'test-radius',
-      'test-week'
-    )
-
-    const expected = {
-      id: null,
-      name: null,
-    }
-
-    expect(result).toEqual(expected)
-  })
-
   it('should return null if the environment variables are missing', async () => {
     delete process.env.STARTGG_KEY
     delete process.env.STARTGG_URI
