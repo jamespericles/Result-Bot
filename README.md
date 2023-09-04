@@ -8,7 +8,7 @@ Recently, I integrated the [Top8er](https://github.com/ShonTitor/Top8er) API so 
 
 The bot is written primarily in TypeScript, and uses [discord.js](https://discord.js.org/#/) as the library for interacting with Discord, as well as GraphQL to interact with the [start.gg](https://developer.start.gg) API.
 
-![Week-142](/../screenshots/resultBot.png?raw=true 'Week 142 Results')
+![Week-142](/../screenshots/screenshots/resultBot.png?raw=true 'Week 142 Results')
 
 ## Installation
 
