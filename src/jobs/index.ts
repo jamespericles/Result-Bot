@@ -21,7 +21,7 @@ function incrementWeekCount() {
 }
 
 const job = new CronJob(
-  '0 9 * * 3',
+  '*/5 * * * * *',
   async () => {
     console.log('*** Cron job running ***')
     // 9am every Wednesday
