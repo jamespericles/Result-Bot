@@ -29,7 +29,7 @@ type CharacterMap = {
 }
 
 // Top8er API has some mismatched character names with smash.gg
-const sanitizedCharacterName = (characterName: string): string => {
+export const sanitizedCharacterName = (characterName: string): string => {
   const characterMap: CharacterMap = {
     'Banjo-Kazooie': 'Banjo & Kazooie',
     'Bowser Jr.': 'Bowser Jr',
@@ -132,7 +132,6 @@ const generateTop8er = async (
     if (res.status === 200) {
       const { base64_img } = (await res.json()) as { base64_img: string }
 
-      // Assuming you have the base64 image data in a variable called `base64Img`
       const base64Img = base64_img
 
       // Remove the data URI prefix from the base64 string
