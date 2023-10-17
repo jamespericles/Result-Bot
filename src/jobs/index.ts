@@ -5,6 +5,7 @@ import {
   getTournamentsByCoord,
   generateTop8er,
   getSelectionValByGame,
+  uppercaseString
 } from 'util/index'
 import { client } from 'bot'
 import { Standings } from 'util/getEventStanding'
@@ -32,7 +33,7 @@ const job = new CronJob(
 
     const { id, name } = await getTournamentsByCoord(
       1,
-      '41.85488981724496,-87.66285400268926',
+      process.env.TOURNAMENT_COORDS as string,
       '1mi',
       weekCount
     )
@@ -72,7 +73,7 @@ const job = new CronJob(
         )
         channel.send({
           embeds: [embed],
-          content: `@everyone Check out the results of Alulu-${weekCount}!`,
+          content: `@everyone Check out the results of ${uppercaseString(process.env.TOURNAMENT_NAME as string)}-${weekCount}!`,
           files: ['graphic.png'],
         })
 
@@ -85,7 +86,7 @@ const job = new CronJob(
         )
         channel.send({
           embeds: [embed],
-          content: `@everyone Check out the results of Alulu-${weekCount}!`,
+          content: `@everyone Check out the results of ${uppercaseString(process.env.TOURNAMENT_NAME as string)}-${weekCount}!`,
         })
         incrementWeekCount()
       }
