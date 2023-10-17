@@ -1,7 +1,7 @@
 import fs from 'fs'
 import dotenv from 'dotenv'
 import { Base64String } from 'discord.js'
-import { getCharacters } from 'util/index'
+import { getCharacters, uppercaseString } from 'util/index'
 import { Selections } from 'util/getSelectionValByGame'
 import { Characters } from 'util/getCharacters'
 import { Standings } from 'util/getEventStanding'
@@ -11,7 +11,7 @@ const fetch = (...args) =>
   // @ts-ignore
   import('node-fetch').then(({ default: fetch }) => fetch(...args))
 
-const { TOP8ER_URI } = process.env
+const { TOP8ER_URI, TOURNAMENT_NAME } = process.env
 
 type GenerateImageResponse =
   | {
@@ -108,7 +108,7 @@ const generateTop8er = async (
           charshadow: true,
           textshadow: true,
           darkenbg: true,
-          topleft: `Alulu-${week}`,
+          topleft: `${uppercaseString(TOURNAMENT_NAME as string)}-${week}`,
           topright: 'Ultimate Singles',
           bottomleft: '',
           numbers: 'default', // default | prmode | cleanmode = no numbers

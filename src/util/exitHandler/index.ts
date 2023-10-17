@@ -1,9 +1,9 @@
-import generateEmailAlert from '../generateEmailAlert'
+import { generateEmailAlert, uppercaseString } from 'util/index'
 
 async function exitHandler(evtOrExitCodeOrError: number | string | Error) {
   if (evtOrExitCodeOrError instanceof Error) {
     await generateEmailAlert(
-      'Alulu Bot has exited.',
+      `${uppercaseString(process.env.TOURNAMENT_NAME as string)} Bot has exited.`,
       JSON.stringify(evtOrExitCodeOrError)
     )
   }
