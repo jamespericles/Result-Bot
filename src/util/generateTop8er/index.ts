@@ -1,7 +1,7 @@
 import fs from 'fs'
 import dotenv from 'dotenv'
 import { Base64String } from 'discord.js'
-import { getCharacters, uppercaseString } from 'util/index'
+import { getCharacters, sanitizeTournamentName } from 'util/index'
 import { Selections } from 'util/getSelectionValByGame'
 import { Characters } from 'util/getCharacters'
 import { Standings } from 'util/getEventStanding'
@@ -108,7 +108,7 @@ const generateTop8er = async (
           charshadow: true,
           textshadow: true,
           darkenbg: true,
-          topleft: `${uppercaseString(TOURNAMENT_NAME as string)}-${week}`,
+          topleft: `${sanitizeTournamentName(TOURNAMENT_NAME as string)}-${week}`,
           topright: 'Ultimate Singles',
           bottomleft: '',
           numbers: 'default', // default | prmode | cleanmode = no numbers

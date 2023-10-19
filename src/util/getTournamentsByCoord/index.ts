@@ -1,6 +1,6 @@
 import * as queryString from 'graphql/queries/getTournamentsByCoord'
 import dotenv from 'dotenv'
-import { getEventID, uppercaseString } from 'util/index'
+import { getEventID, sanitizeTournamentName } from 'util/index'
 dotenv.config()
 // @ts-ignore
 const fetch = (...args) =>
@@ -76,7 +76,7 @@ const getTournamentsByCoord = async (
 
       if (data.tournaments.nodes) {
         for (const node of data.tournaments.nodes) {
-          if (node.name.includes(uppercaseString(process.env.TOURNAMENT_NAME as string)) && node.name.includes(`#${week}`)) {
+          if (node.name.includes(sanitizeTournamentName(process.env.TOURNAMENT_NAME as string)) && node.name.includes(`#${week}`)) {
             let id = await getEventID(
               `tournament/${sanitizeSlug(node.name)}/event/ultimate-singles`
             )

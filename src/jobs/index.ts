@@ -5,7 +5,7 @@ import {
   getTournamentsByCoord,
   generateTop8er,
   getSelectionValByGame,
-  uppercaseString
+  sanitizeTournamentName
 } from 'util/index'
 import { client } from 'bot'
 import { Standings } from 'util/getEventStanding'
@@ -73,7 +73,7 @@ const job = new CronJob(
         )
         channel.send({
           embeds: [embed],
-          content: `@everyone Check out the results of ${uppercaseString(process.env.TOURNAMENT_NAME as string)}-${weekCount}!`,
+          content: `@everyone Check out the results of ${sanitizeTournamentName(process.env.TOURNAMENT_NAME as string)}-${weekCount}!`,
           files: ['graphic.png'],
         })
 
@@ -86,7 +86,7 @@ const job = new CronJob(
         )
         channel.send({
           embeds: [embed],
-          content: `@everyone Check out the results of ${uppercaseString(process.env.TOURNAMENT_NAME as string)}-${weekCount}!`,
+          content: `@everyone Check out the results of ${sanitizeTournamentName(process.env.TOURNAMENT_NAME as string)}-${weekCount}!`,
         })
         incrementWeekCount()
       }

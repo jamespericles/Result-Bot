@@ -1,9 +1,9 @@
-import { generateEmailAlert, uppercaseString } from 'util/index'
+import { generateEmailAlert, sanitizeTournamentName } from 'util/index'
 
 async function exitHandler(evtOrExitCodeOrError: number | string | Error) {
   if (evtOrExitCodeOrError instanceof Error) {
     await generateEmailAlert(
-      `${uppercaseString(process.env.TOURNAMENT_NAME as string)} Bot has exited.`,
+      `${sanitizeTournamentName(process.env.TOURNAMENT_NAME as string)} Bot has exited.`,
       JSON.stringify(evtOrExitCodeOrError)
     )
   }

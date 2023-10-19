@@ -1,4 +1,4 @@
-import { generateEmailAlert, exitHandler, uppercaseString } from 'util/index'
+import { generateEmailAlert, exitHandler, sanitizeTournamentName } from 'util/index'
 
 jest.mock('util/generateEmailAlert', () => jest.fn())
 
@@ -27,7 +27,7 @@ describe('exitHandler', () => {
         await exitHandler(error)
 
         expect(generateEmailAlert).toHaveBeenCalledWith(
-            `${uppercaseString(process.env.TOURNAMENT_NAME as string)} Bot has exited.`,
+            `${sanitizeTournamentName(process.env.TOURNAMENT_NAME as string)} Bot has exited.`,
             JSON.stringify(error)
         )
     })
