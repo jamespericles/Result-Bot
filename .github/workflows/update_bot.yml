@@ -8,7 +8,7 @@ on:
 jobs:
   pull-and-install:
     runs-on: ubuntu-latest
-    environment: prod
+    environment: dev
 
     steps:
       - name: Checkout code
