@@ -9,10 +9,20 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
+    environment: dev
     env:
+      TOURNAMENT_NAME: ${{ secrets.TOURNAMENT_NAME }}
+      TOURNAMENT_COORDS: ${{ secrets.TOURNAMENT_COORDS }}
+      DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}
+      CLIENT_ID: ${{ secrets.CLIENT_ID }}
+      GUILD_ID: ${{ secrets.GUILD_ID }}
+      CHANNEL_ID: ${{ secrets.CHANNEL_ID }}
       STARTGG_KEY: ${{ secrets.STARTGG_KEY }}
       STARTGG_URI: ${{ secrets.STARTGG_URI }}
+      SMTP_USERNAME: ${{ secrets.SMTP_USERNAME }}
+      SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
+      SMTP_RECIPIENT: ${{ secrets.SMTP_RECIPIENT }}
+      TOP8ER_URI: ${{ secrets.TOP8ER_URI }}
 
     steps:
       - uses: actions/checkout@v2
