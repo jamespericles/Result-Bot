@@ -1,9 +1,9 @@
-import generateEmailAlert from '../generateEmailAlert'
+import { generateEmailAlert, sanitizeTournamentName } from 'util/index'
 
 async function exitHandler(evtOrExitCodeOrError: number | string | Error) {
   if (evtOrExitCodeOrError instanceof Error) {
     await generateEmailAlert(
-      'Alulu Bot has exited.',
+      `${sanitizeTournamentName(process.env.TOURNAMENT_NAME as string)} Bot has exited.`,
       JSON.stringify(evtOrExitCodeOrError)
     )
   }
