@@ -13,8 +13,6 @@ jobs:
     env:
       STARTGG_KEY: ${{ secrets.STARTGG_KEY }}
       STARTGG_URI: ${{ secrets.STARTGG_URI }}
-      TOURNAMENT_NAME: ${{ secrets.TOURNAMENT_NAME }}
-      TOURNAMENT_COORDS: ${{ secrets.TOURNAMENT_COORDS }}
 
     steps:
       - uses: actions/checkout@v2
