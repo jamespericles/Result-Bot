@@ -11,8 +11,8 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      STARTGG_KEY: ${{ secrets.STARTGG_KEY }}}
-      STARTGG_URI: ${{ secrets.STARTGG_URI }}}
+      STARTGG_KEY: ${{ secrets.STARTGG_KEY }}
+      STARTGG_URI: ${{ secrets.STARTGG_URI }}
 
     steps:
       - uses: actions/checkout@v2
