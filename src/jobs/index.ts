@@ -32,6 +32,7 @@ const job = new CronJob(
     const channel = client.channels.cache.get(
       process.env.CHANNEL_ID as string
     ) as TextChannel
+    console.log("file: index.ts:35 ~ channel:", channel)
 
     const { id, name } = await getTournamentsByCoord(
       1,
@@ -49,6 +50,7 @@ const job = new CronJob(
     )
 
     const selectionSample = await getSelectionValByGame(slug)
+    console.log("file: index.ts:53 ~ selectionSample:", selectionSample)
 
     if (eventStanding instanceof Error) {
       console.error(eventStanding)
