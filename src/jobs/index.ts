@@ -32,14 +32,15 @@ const job = new CronJob(
     const channel = client.channels.cache.get(
       process.env.CHANNEL_ID as string
     ) as TextChannel
-    console.log("file: index.ts:35 ~ channel:", channel)
 
     const { id, name } = await getTournamentsByCoord(
       1,
       process.env.TOURNAMENT_COORDS as string,
       '1mi',
       weekCount
-    )
+      )
+      console.log("file: index.ts:37 ~ name:", name)
+      console.log("file: index.ts:37 ~ id:", id)
 
     if (id === null) return console.error('No tournament found')
 
@@ -48,6 +49,7 @@ const job = new CronJob(
     const eventStanding: Standings | Error | undefined = await getEventStanding(
       id
     )
+    console.log("file: index.ts:50 ~ eventStanding:", eventStanding)
 
     const selectionSample = await getSelectionValByGame(slug)
     console.log("file: index.ts:53 ~ selectionSample:", selectionSample)
