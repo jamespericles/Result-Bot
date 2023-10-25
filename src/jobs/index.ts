@@ -22,11 +22,13 @@ function incrementWeekCount() {
 }
 
 const job = new CronJob(
-  '0 9 * * 3',
+  // '0 9 * * 3',
+  '*/5 * * * * *',
   async () => {
     console.log('*** Cron job running ***')
     // 9am every Wednesday
-    const weekCount = parseInt(fs.readFileSync('WEEK_COUNT.txt', 'utf8'))
+    // const weekCount = parseInt(fs.readFileSync('WEEK_COUNT.txt', 'utf8'))
+    const weekCount = 151
     const channel = client.channels.cache.get(
       process.env.CHANNEL_ID as string
     ) as TextChannel
@@ -77,7 +79,7 @@ const job = new CronJob(
           files: ['graphic.png'],
         })
 
-        incrementWeekCount()
+        // incrementWeekCount()
       } else {
         const embed = generateResultsPayload(
           weekCount.toString(),
@@ -88,7 +90,7 @@ const job = new CronJob(
           embeds: [embed],
           content: `@everyone Check out the results of ${sanitizeTournamentName(process.env.TOURNAMENT_NAME as string)}-${weekCount}!`,
         })
-        incrementWeekCount()
+        // incrementWeekCount()
       }
     }
   },
