@@ -22,13 +22,11 @@ function incrementWeekCount() {
 }
 
 const job = new CronJob(
-  // '0 9 * * 3',
-  '*/5 * * * * *',
+  '0 9 * * 3',
   async () => {
     console.log('*** Cron job running ***')
     // 9am every Wednesday
-    // const weekCount = parseInt(fs.readFileSync('WEEK_COUNT.txt', 'utf8'))
-    const weekCount = 151
+    const weekCount = parseInt(fs.readFileSync('WEEK_COUNT.txt', 'utf8'))
     const channel = client.channels.cache.get(
       process.env.CHANNEL_ID as string
     ) as TextChannel
@@ -39,8 +37,6 @@ const job = new CronJob(
       '1mi',
       weekCount
       )
-      console.log("file: index.ts:37 ~ name:", name)
-      console.log("file: index.ts:37 ~ id:", id)
 
     if (id === null) return console.error('No tournament found')
 
@@ -49,10 +45,8 @@ const job = new CronJob(
     const eventStanding: Standings | Error | undefined = await getEventStanding(
       id
     )
-    console.log("file: index.ts:50 ~ eventStanding:", eventStanding)
 
     const selectionSample = await getSelectionValByGame(slug)
-    console.log("file: index.ts:53 ~ selectionSample:", selectionSample)
 
     if (eventStanding instanceof Error) {
       console.error(eventStanding)
@@ -83,7 +77,7 @@ const job = new CronJob(
           files: ['graphic.png'],
         })
 
-        // incrementWeekCount()
+        incrementWeekCount()
       } else {
         const embed = generateResultsPayload(
           weekCount.toString(),
@@ -94,7 +88,7 @@ const job = new CronJob(
           embeds: [embed],
           content: `@everyone Check out the results of ${sanitizeTournamentName(process.env.TOURNAMENT_NAME as string)}-${weekCount}!`,
         })
-        // incrementWeekCount()
+        incrementWeekCount()
       }
     }
   },

@@ -51,9 +51,6 @@ const generateTop8er = async (
   selectionSample: Selections[],
   week: string | number
 ): Promise<GenerateImageResponse | undefined> => {
-  console.log("file: index.ts:54 ~ week:", week)
-  console.log("file: index.ts:54 ~ selectionSample:", selectionSample)
-  console.log("file: index.ts:54 ~ eventStanding:", eventStanding)
   const characterArray = (await getCharacters()) as Characters
   if (eventStanding && selectionSample && characterArray) {
     const mostFrequentSelections = new Map<number, number | null>()
