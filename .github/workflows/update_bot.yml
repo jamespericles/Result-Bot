@@ -39,7 +39,7 @@ jobs:
         run: ssh -o StrictHostKeyChecking=no root@45.63.66.64 'cd /root/Result-Bot && yarn'
 
       - name: Start the process
-        run: ssh -o StrictHostKeyChecking=no root@45.63.66.64 'cd /root/Result-Bot && nohup yarn dev 2>&1 &'
+        run: ssh -o StrictHostKeyChecking=no root@45.63.66.64 'cd /root/Result-Bot && disown nohup yarn dev 2>&1 &'
 
       - name: Wait for the process to start
         run: |
