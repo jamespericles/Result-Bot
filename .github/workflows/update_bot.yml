@@ -38,9 +38,5 @@ jobs:
       - name: Install dependencies
         run: ssh -o StrictHostKeyChecking=no root@45.63.66.64 'cd /root/Result-Bot && yarn'
 
-        # Possibly may need to be updated to copy the version of node, install it, then run use
-      - name: Use correct version of node
-        run: ssh -o StrictHostKeyChecking=no root@45.63.66.64 'cd /root/Result-Bot && nvm use'
-
       - name: Start the process
         run: ssh -o StrictHostKeyChecking=no root@45.63.66.64 'cd /root/Result-Bot && yarn dev'
