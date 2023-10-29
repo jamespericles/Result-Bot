@@ -43,14 +43,14 @@ jobs:
 
       - name: Wait for the process to start
         run: |
-          while ! grep -q "Called job start!" nohup.out; do
+          while ! grep -q "🤖 Bot is ready!" nohup.out; do
             sleep 5
           done
         continue-on-error: true
 
       - name: Check if the process started successfully
         run: |
-          if grep -q "Called job start!" nohup.out; then
+          if grep -q "🤖 Bot is ready!" nohup.out; then
             echo "Process started successfully."
           else
             echo "Process didn't start as expected."
