@@ -39,18 +39,18 @@ jobs:
         run: ssh -o StrictHostKeyChecking=no root@45.63.66.64 'cd /root/Result-Bot && yarn'
 
       - name: Start the process
-        run: ssh -o StrictHostKeyChecking=no root@45.63.66.64 'cd /root/Result-Bot && yarn dev > log.txt 2>&1 &'
+        run: ssh -o StrictHostKeyChecking=no root@45.63.66.64 'cd /root/Result-Bot && nohup yarn dev > 2>&1 &'
 
       - name: Wait for the process to start
         run: |
-          while ! grep -q "Called job start" log.txt; do
+          while ! grep -q "Called job start!" nohup.out; do
             sleep 5
           done
         continue-on-error: true
 
       - name: Check if the process started successfully
         run: |
-          if grep -q "Called job start" log.txt; then
+          if grep -q "Called job start!" nohup.out; then
             echo "Process started successfully."
           else
             echo "Process didn't start as expected."
