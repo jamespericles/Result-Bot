@@ -24,6 +24,11 @@ describe("generateResultsPayload", () => {
       entrant: {
         id: i + 1,
         name: `Player ${i + 1}`,
+        participants: [{
+          user: {
+            slug: `${i + 1}`
+          }
+        }]
       },
     }))
 
@@ -32,7 +37,7 @@ describe("generateResultsPayload", () => {
     expect(embed.data.fields).toHaveLength(8)
     embed.data.fields?.forEach((field, i) => {
         expect(field.name).toBe(' ')
-        expect(field.value).toBe(`#${i + 1}: [Player ${i + 1}](https://start.gg/user/${i + 1})`)
+        expect(field.value).toBe(`#${i + 1}: [Player ${i + 1}](https://start.gg/${i + 1})`)
         })
     })
 })

@@ -11,6 +11,11 @@ export default gql`
           entrant {
             id
             name
+            participants {
+              user {
+                slug
+              }
+            }
           }
         }
       }

@@ -22,6 +22,11 @@ describe('generateTop8er', () => {
         entrant: {
           id: 1,
           name: 'Player 1',
+          participants: [{
+            user: {
+              slug: 'user/1',
+            },
+          }]
         },
       },
       {
@@ -29,6 +34,11 @@ describe('generateTop8er', () => {
         entrant: {
           id: 2,
           name: 'Player 2',
+          participants: [{
+            user: {
+              slug: 'user/2',
+            },
+          }]
         },
       },
     ];

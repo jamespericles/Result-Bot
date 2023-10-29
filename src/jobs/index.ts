@@ -36,7 +36,7 @@ const job = new CronJob(
       process.env.TOURNAMENT_COORDS as string,
       '1mi',
       weekCount
-      )
+    )
 
     if (id === null) return console.error('No tournament found')
 

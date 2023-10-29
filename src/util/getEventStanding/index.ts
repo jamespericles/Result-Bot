@@ -20,6 +20,11 @@ type EventData = {
           entrant: {
             id: number
             name: string
+            participants: {
+              user: {
+                slug: string
+              }
+            }[]
           }
         }[]
       }
@@ -65,7 +70,7 @@ const getEventStanding = async (
           },
         },
       } = (await response.json()) as EventData
-
+      
       if (!nodes) {
         throw new Error(`Event not found`)
       } else {
