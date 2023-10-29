@@ -15,7 +15,7 @@ const generateResultsPayload = (
     eventStanding.forEach((node) => {
       embed.addFields({
         name: ' ',
-        value: `#${node.placement}: [${node.entrant.name}](https://start.gg/user/${node.entrant.id})`,
+        value: `#${node.placement}: [${node.entrant.name}](https://start.gg/${node.entrant.participants[0].user.slug})`,
       })
     })
   }

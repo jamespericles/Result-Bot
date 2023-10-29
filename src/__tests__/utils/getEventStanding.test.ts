@@ -15,6 +15,11 @@ describe('getEventStanding', () => {
                 entrant: {
                   id: 12345,
                   name: 'test-entrant',
+                  participants: {
+                    user: {
+                      slug: 'user/12345',
+                    }
+                  }
                 },
               },
             ],
@@ -47,6 +52,11 @@ describe('getEventStanding', () => {
         entrant: {
           id: 12345,
           name: 'test-entrant',
+          participants: {
+            user: {
+              slug: 'user/12345',
+            }
+          }
         },
       },
     ])

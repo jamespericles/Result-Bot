@@ -22,7 +22,8 @@ function incrementWeekCount() {
 }
 
 const job = new CronJob(
-  '0 9 * * 3',
+  // '0 9 * * 3',
+  '*/5 * * * * *',
   async () => {
     console.log('*** Cron job running ***')
     // 9am every Wednesday
@@ -36,7 +37,7 @@ const job = new CronJob(
       process.env.TOURNAMENT_COORDS as string,
       '1mi',
       weekCount
-      )
+    )
 
     if (id === null) return console.error('No tournament found')
 
