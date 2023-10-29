@@ -1,4 +1,4 @@
-name: Deploy and Restart Bot
+name: Git Pull
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  deploy-and-restart:
+  pull-and-install:
     runs-on: ubuntu-latest
     environment: dev
 
@@ -22,37 +22,8 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.SERVER_SSH_KEY }}
 
-      - name: Find and kill the "yarn dev" process
-        run: |
-          PID=$(ps aux | grep -i "yarn dev" | grep -v grep | awk '{print $2}')
-          if [ -n "$PID" ]; then
-            echo "Killing process with PID $PID"
-            kill $PID
-          else
-            echo "No matching process found."
-          fi
-
       - name: Pull from server
         run: ssh -o StrictHostKeyChecking=no root@45.63.66.64 'cd /root/Result-Bot && git pull'
 
       - name: Install dependencies
         run: ssh -o StrictHostKeyChecking=no root@45.63.66.64 'cd /root/Result-Bot && yarn'
-
-      - name: Start the process
-        run: ssh -o StrictHostKeyChecking=no root@45.63.66.64 'cd /root/Result-Bot && disown nohup yarn dev 2>&1 &'
-
-      - name: Wait for the process to start
-        run: |
-          while ! grep -q "🤖 Bot is ready!" nohup.out; do
-            sleep 5
-          done
-        continue-on-error: true
-
-      - name: Check if the process started successfully
-        run: |
-          if grep -q "🤖 Bot is ready!" nohup.out; then
-            echo "Process started successfully."
-          else
-            echo "Process didn't start as expected."
-            exit 1
-          fi
