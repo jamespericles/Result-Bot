@@ -1,4 +1,4 @@
-name: Git Pull
+name: Deploy and Restart Bot
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  pull-and-install:
+  deploy-and-restart:
     runs-on: ubuntu-latest
     environment: dev
 
@@ -22,8 +22,25 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.SERVER_SSH_KEY }}
 
+      - name: Find and kill the "yarn dev" process
+        run: |
+          PID=$(ps aux | grep -i "yarn dev" | grep -v grep | awk '{print $2}')
+          if [ -n "$PID" ]; then
+            echo "Killing process with PID $PID"
+            kill $PID
+          else
+            echo "No matching process found."
+          fi
+
       - name: Pull from server
         run: ssh -o StrictHostKeyChecking=no root@45.63.66.64 'cd /root/Result-Bot && git pull'
 
       - name: Install dependencies
         run: ssh -o StrictHostKeyChecking=no root@45.63.66.64 'cd /root/Result-Bot && yarn'
+
+        # Possibly may need to be updated to copy the version of node, install it, then run use
+      - name: Use correct version of node
+        run: ssh -o StrictHostKeyChecking=no root@45.63.66.64 'cd /root/Result-Bot && nvm use'
+
+      - name: Start the process
+        run: ssh -o StrictHostKeyChecking=no root@45.63.66.64 'cd /root/Result-Bot && yarn dev'
