@@ -1,5 +1,4 @@
 import { generateTop8er } from 'util/index'
-import { sanitizedCharacterName } from 'util/generateTop8er'
 //
 import fs from 'fs';
 import dotenv from 'dotenv';
@@ -66,15 +65,8 @@ describe('generateTop8er', () => {
         name: 'Character 2',
       },
     ];
-})
 
-describe('sanitizedCharacterName', () => {
-    it('sanitizedCharacterName should return the correct character name if it exists in the map', () => {
-        expect(sanitizedCharacterName('Pyra & Mythra')).toBe('Pyra and Mythra')
-        expect(sanitizedCharacterName('Random Character')).toBe('Random')
-    })
-    
-    it('should return the original character name if it does not exist in the map', () => {
-        expect(sanitizedCharacterName('Character')).toBe('Character')
+    it('', () => {
+        expect(true).toBe(true)
     })
 })

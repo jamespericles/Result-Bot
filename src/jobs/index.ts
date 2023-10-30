@@ -88,6 +88,7 @@ const job = new CronJob(
           embeds: [embed],
           content: `@everyone Check out the results of ${sanitizeTournamentName(process.env.TOURNAMENT_NAME as string)}-${weekCount}!`,
         })
+        
         incrementWeekCount()
       }
     }

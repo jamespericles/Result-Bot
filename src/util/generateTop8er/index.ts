@@ -1,7 +1,10 @@
 import fs from 'fs'
 import dotenv from 'dotenv'
 import { Base64String } from 'discord.js'
-import { getCharacters, sanitizeTournamentName } from 'util/index'
+import { getCharacters, 
+  sanitizeTournamentName, 
+  generateMergedPayload 
+} from 'util/index'
 import { Selections } from 'util/getSelectionValByGame'
 import { Characters } from 'util/getCharacters'
 import { Standings } from 'util/getEventStanding'
@@ -24,28 +27,6 @@ type GenerateImageResponse =
       image?: never
     }
 
-type CharacterMap = {
-  [key: string]: string
-}
-
-// Top8er API has some mismatched character names with smash.gg
-export const sanitizedCharacterName = (characterName: string): string => {
-  const characterMap: CharacterMap = {
-    'Banjo-Kazooie': 'Banjo & Kazooie',
-    'Bowser Jr.': 'Bowser Jr',
-    'Dr. Mario': 'Dr Mario',
-    'R.O.B.': 'ROB',
-    'King K. Rool': 'King K Rool',
-    'Simon Belmont': 'Simon',
-    'Mr. Game & Watch': 'Mr Game & Watch',
-    'Pyra & Mythra': 'Pyra and Mythra',
-    'Random Character': 'Random',
-    // Easily extendable
-  }
-
-  return characterMap[characterName] || characterName
-}
-
 const generateTop8er = async (
   eventStanding: Standings,
   selectionSample: Selections[],
@@ -53,48 +34,6 @@ const generateTop8er = async (
 ): Promise<GenerateImageResponse | undefined> => {
   const characterArray = (await getCharacters()) as Characters
   if (eventStanding && selectionSample && characterArray) {
-    const mostFrequentSelections = new Map<number, number | null>()
-
-    const merged = eventStanding.map((standing) => {
-      const playerId = standing.entrant.id
-      const selectionsForPlayer = selectionSample.filter(
-        (s) => s.id === playerId
-      )
-
-      let mostFrequentSelection: number | null = null
-      let maxCount = 0
-      const selectionCountMap = new Map<number, number>()
-
-      selectionsForPlayer.forEach((selection) => {
-        const selectionValue = selection.selectionValue
-        if (selectionValue !== null) {
-          const currentCount = selectionCountMap.get(selectionValue) || 0
-          const newCount = currentCount + 1
-          selectionCountMap.set(selectionValue, newCount)
-
-          if (newCount > maxCount) {
-            maxCount = newCount
-            mostFrequentSelection = selectionValue
-          }
-        }
-      })
-
-      mostFrequentSelections.set(playerId, mostFrequentSelection)
-
-      const character = characterArray.find(
-        (c) => c.id === mostFrequentSelection
-      )
-
-      const characterName = character?.name ?? 'Random'
-
-      return {
-        name: standing.entrant.name,
-        social: '',
-        character: [[sanitizedCharacterName(characterName), 0], null, null],
-        flag: [null, null],
-      }
-    })
-
     const res = await fetch(TOP8ER_URI, {
       method: 'POST',
       headers: {
@@ -102,7 +41,11 @@ const generateTop8er = async (
         Accept: 'application/json',
       },
       body: JSON.stringify({
-        players: merged,
+        players: generateMergedPayload(
+          eventStanding,
+          selectionSample,
+          characterArray
+        ),
         options: {
           blacksquares: true,
           charshadow: true,
