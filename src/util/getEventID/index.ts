@@ -18,7 +18,7 @@ type EventData = {
   }
 }
 
-const getEventID = async (eventSlug: string): Promise<number> => {
+const getEventID = async (eventSlug: string): Promise<number | undefined> => {
   let eventID: number = 0
 
   if (STARTGG_KEY && STARTGG_URI) {
@@ -40,14 +40,16 @@ const getEventID = async (eventSlug: string): Promise<number> => {
         }),
       })
 
-      // TODO: Is this the best way to handle this?
-      const { data } = (await response.json()) as EventData
+      const json = await response.json() as { data: { event: unknown}}
 
-      if (!data || !data.event) {
-        throw new Error(`Event with slug ${eventSlug} not found`)
+      if (response.status === 200 && json.data.event) {
+        const { data } = json as EventData
+
+        eventID = data.event.id
+      } else {
+        console.log('Event ID not found')
+        return
       }
-
-      eventID = data.event.id
     }
   }
 

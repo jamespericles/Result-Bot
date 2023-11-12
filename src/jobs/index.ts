@@ -8,7 +8,6 @@ import {
   sanitizeTournamentName
 } from 'util/index'
 import { client } from 'bot'
-import { Standings } from 'util/getEventStanding'
 import fs from 'fs'
 import dotenv from 'dotenv'
 import { CronJob } from 'cron'
@@ -22,7 +21,8 @@ function incrementWeekCount() {
 }
 
 const job = new CronJob(
-  '0 9 * * 3',
+  // '0 9 * * 3',
+  '*/5 * * * * *',
   async () => {
     console.log('*** Cron job running ***')
     // 9am every Wednesday
@@ -31,34 +31,34 @@ const job = new CronJob(
       process.env.CHANNEL_ID as string
     ) as TextChannel
 
-    const { id, name } = await getTournamentsByCoord(
+    const { id, slug } = await getTournamentsByCoord(
       1,
       process.env.TOURNAMENT_COORDS as string,
       '1mi',
       weekCount
-    )
+      )
 
-    if (id === null) return console.error('No tournament found')
+    if (id === null) return console.error('ID not generated')
+    if (slug === null) return console.error('Slug not generated')
 
-    const slug = `tournament/${name}/event/ultimate-singles`
     // @TODO - This can be bypassed, getEventStanding can take the slug
-    const eventStanding: Standings | Error | undefined = await getEventStanding(
+    const eventStanding = await getEventStanding(
       id
     )
-
-    const selectionSample = await getSelectionValByGame(slug)
 
     if (eventStanding instanceof Error) {
       console.error(eventStanding)
       return
     }
 
+    const selectionSample = await getSelectionValByGame(slug)
+
     if (selectionSample instanceof Error) {
       console.error(selectionSample)
       return
     }
 
-    if (eventStanding && selectionSample) {
+    if (eventStanding && selectionSample && slug) {
       const top8er = await generateTop8er(
         eventStanding,
         selectionSample,
