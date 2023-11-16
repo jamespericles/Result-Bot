@@ -79,7 +79,6 @@ const getTournamentsByCoord = async (
       if (data.tournaments.nodes) {
         for (const node of data.tournaments.nodes) {
           if (node.name.includes(sanitizeTournamentName(process.env.TOURNAMENT_NAME as string)) && node.name.includes(`#${week}`)) {
-            let slug
             const slugs = [
               `tournament/${sanitizeSlug(node.name)}/event/ultimate-singles`,
               `tournament/${sanitizeSlug(node.name)}-1/event/ultimate-singles`, 

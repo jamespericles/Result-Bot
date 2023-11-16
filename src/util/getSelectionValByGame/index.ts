@@ -61,7 +61,6 @@ const getSelectionValByGame = async (
       })
 
       const json = await response.json() as { data: { event: unknown } }
-
       if (response.status === 200 && json.data.event) {
         const {
           data: {
@@ -72,39 +71,47 @@ const getSelectionValByGame = async (
         } = json as SelectionValueData
         
         let result: Selections[] = []
-
-        nodes.forEach((node) => {
+      
+        for (let i = 0; i < nodes.length; i++) {
+          let node = nodes[i]
           if (node.games) {
-            node.games.forEach((game) => {
+            for (let j = 0; j < node.games.length; j++) {
+              let game = node.games[j]
+
+              // If game.selections is null, replace it with an empty array
+              game.selections = game.selections || []
               if (game.selections.length) {
-                game.selections.forEach((selection) => {
+                for (let k = 0; k < game.selections.length; k++) {
+                  let selection = game.selections[k]
                   let obj: Selections = {
                     selectionValue: null,
                     id: null,
                     name: null,
                   }
-                  
+      
                   obj.selectionValue = selection.selectionValue
-                  selection.entrant.participants.forEach((participant) => {
+                  for (let l = 0; l < selection.entrant.participants.length; l++) {
+                    let participant = selection.entrant.participants[l]
                     obj.id = participant.entrants[0].id
                     obj.name = participant.entrants[0].name
-                    
-                    result.push(obj)
-                  })
-                })
+      
+                    result.push(obj);
+                  }
+                }
               }
-            })
+            }
           }
-        })
+        }
+
+        return result
+      }
         
-        console.log("file: index.ts:100 ~ result:", result)
-      return result
       } else {
         console.error('No event found, selection sample not generated')
         return 
       }
     }
   }
-}
+
 
 export default getSelectionValByGame
