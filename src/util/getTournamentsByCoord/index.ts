@@ -77,6 +77,8 @@ const getTournamentsByCoord = async (
       const { data } = (await response.json()) as TournamentData
 
       if (data.tournaments.nodes) {
+        console.log("file: index.ts:80 ~ data.tournaments.nodes:", data.tournaments.nodes)
+        
         for (const node of data.tournaments.nodes) {
           if (node.name.includes(sanitizeTournamentName(process.env.TOURNAMENT_NAME as string)) && node.name.includes(`#${week}`)) {
             const slugs = [
