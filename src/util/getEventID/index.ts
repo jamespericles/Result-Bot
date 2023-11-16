@@ -42,7 +42,7 @@ const getEventID = async (eventSlug: string): Promise<number | undefined> => {
 
       const json = await response.json() as { data: { event: unknown}}
 
-      if (response.status === 200 && json.data.event) {
+      if (json.data.event) {
         const { data } = json as EventData
 
         eventID = data.event.id
