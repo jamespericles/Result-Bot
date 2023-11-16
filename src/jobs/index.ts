@@ -21,8 +21,7 @@ function incrementWeekCount() {
 }
 
 const job = new CronJob(
-  // '0 9 * * 3',
-  '*/5 * * * * *',
+  '0 9 * * 3',
   async () => {
     console.log('*** Cron job running ***')
     // 9am every Wednesday
@@ -40,7 +39,6 @@ const job = new CronJob(
 
     if (id === null) return console.error('ID not generated')
     if (slug === null) return console.error('Slug not generated')
-    console.log("file: index.ts:43 ~ slug:", slug)
 
     // @TODO - This can be bypassed, getEventStanding can take the slug
     const eventStanding = await getEventStanding(

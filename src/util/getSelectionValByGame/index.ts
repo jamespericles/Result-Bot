@@ -104,14 +104,12 @@ const getSelectionValByGame = async (
         }
 
         return result
-      }
-        
       } else {
         console.error('No event found, selection sample not generated')
         return 
       }
-    }
+    } 
   }
-
+}
 
 export default getSelectionValByGame
