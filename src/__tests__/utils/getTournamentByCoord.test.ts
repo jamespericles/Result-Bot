@@ -7,11 +7,13 @@ describe('getTournamentByCoord', () => {
     jest.resetModules()
     process.env.STARTGG_KEY = 'test-key'
     process.env.STARTGG_URI = 'https://example.com/graphql'
+    process.env.TOURNAMENT_NAME = 'alulu'
   })
 
   afterEach(() => {
     delete process.env.STARTGG_KEY
     delete process.env.STARTGG_URI
+    delete process.env.TOURNAMENT_NAME
   })
 
   const mockResponse = {
@@ -41,7 +43,7 @@ describe('getTournamentByCoord', () => {
     // Mock the nested getEventID call
     const spy = jest.spyOn(getEventID, 'default')
     spy.mockResolvedValue(946457)
-    const { id, name } = await getTournamentsByCoord(
+    const { id, name, slug } = await getTournamentsByCoord(
       undefined, // This covers the page defaulting to 1 in the call signature
       '41.85488981724496,-87.66285400268926',
       '1mi',
@@ -50,6 +52,7 @@ describe('getTournamentByCoord', () => {
 
     expect(name).toBe('alulu-138')
     expect(id).toBe(946457)
+    expect(slug).toBe('tournament/alulu-138/event/ultimate-singles')
   })
 
   it('should return null if the environment variables are missing', async () => {
@@ -66,6 +69,7 @@ describe('getTournamentByCoord', () => {
     const expected = {
       id: null,
       name: null,
+      slug: null,
     }
 
     expect(result).toEqual(expected)

@@ -65,4 +65,53 @@ describe('getSelectionValByGame', () => {
 
     expect(result).toEqual(expected)
   })
+
+  it('should handle null selections', async () => {
+    const mockResponseWithNullSelections = {
+      json: jest.fn().mockResolvedValue({
+        data: {
+          event: {
+            sets: {
+              nodes: [
+                {
+                  games: [
+                    {
+                      selections: null,
+                    },
+                  ],
+                },
+              ],
+            },
+          },
+        },
+      }),
+    }
+    const mockSuccessWithNullSelections = jest.fn().mockResolvedValue(mockResponseWithNullSelections)
+  
+    jest.mock('node-fetch', () => mockSuccessWithNullSelections)
+  
+    const result = await getSelectionValByGame('test-slug')
+  
+    expect(result).toEqual([])
+  })
+
+  it('should log error when no event data is found', async () => {
+    const mockResponseWithNoEventData = {
+      json: jest.fn().mockResolvedValue({
+        data: {},
+      }),
+    }
+    const mockFailure = jest.fn().mockResolvedValue(mockResponseWithNoEventData)
+  
+    jest.mock('node-fetch', () => mockFailure)
+  
+    const consoleSpy = jest.spyOn(console, 'error')
+  
+    const result = await getSelectionValByGame('test-slug')
+  
+    expect(consoleSpy).toHaveBeenCalledWith('No event found, selection sample not generated')
+    expect(result).toBeUndefined()
+  
+    consoleSpy.mockRestore()
+  })
 })

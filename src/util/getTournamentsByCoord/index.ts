@@ -25,6 +25,7 @@ type TournamentData = {
 type ReturnType = {
   id: number | null
   name: string | null
+  slug: string | null
 }
 
 export const sanitizeSlug = (input: string): string => {
@@ -49,6 +50,7 @@ const getTournamentsByCoord = async (
   let res: ReturnType = {
     id: null,
     name: null,
+    slug: null,
   }
 
   if (STARTGG_KEY && STARTGG_URI) {
@@ -77,12 +79,23 @@ const getTournamentsByCoord = async (
       if (data.tournaments.nodes) {
         for (const node of data.tournaments.nodes) {
           if (node.name.includes(sanitizeTournamentName(process.env.TOURNAMENT_NAME as string)) && node.name.includes(`#${week}`)) {
-            let id = await getEventID(
-              `tournament/${sanitizeSlug(node.name)}/event/ultimate-singles`
-            )
-            res.id = id
-            res.name = sanitizeSlug(node.name)
+            const slugs = [
+              `tournament/${sanitizeSlug(node.name)}/event/ultimate-singles`,
+              `tournament/${sanitizeSlug(node.name)}-1/event/ultimate-singles`, 
+              `tournament/${sanitizeSlug(node.name)}-2/event/ultimate-singles`,
+            ]
 
+            for (let i = 0; i < slugs.length; i++) {
+              let response = await getEventID(slugs[i])
+
+              if (response !== undefined) {
+                res.id = response
+                res.slug = slugs[i]
+                break
+              }              
+            }
+            
+            res.name = sanitizeSlug(node.name)
             break
           }
         }

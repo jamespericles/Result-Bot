@@ -44,8 +44,6 @@ describe('getEventID', () => {
       })
     )
 
-    await expect(getEventID('failing-slug')).rejects.toThrow(
-      'Event with slug failing-slug not found'
-    )
+    await expect(getEventID('failing-slug')).resolves.toEqual(undefined)
   })
 })
