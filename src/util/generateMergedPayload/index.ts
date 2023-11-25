@@ -55,7 +55,14 @@ const generateMergedPayload = (
     return {
       name: standing.entrant.name,
       social: "",
-      character: [[sanitizedCharacterName(characterName), 0], null, null],
+      character: [
+        [
+          sanitizedCharacterName(characterName),
+          standing.entrant.name === 'BeeDoo' ? 2 : 0 // If I place, use my costume
+        ],
+        null, 
+        null
+      ],
       flag: [null, null],
     }
   })

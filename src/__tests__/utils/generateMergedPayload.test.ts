@@ -7,57 +7,6 @@ import {
   finalPayload
 } from '__tests__/fixtures'
 
-const expected = [
-  {
-    name: 'Rickles',
-    social: '',
-    character: [ [Array], null, null ],
-    flag: [ null, null ]
-  },
-  {
-    name: 'ALU | Doomy',
-    social: '',
-    character: [ [Array], null, null ],
-    flag: [ null, null ]
-  },
-  {
-    name: 'RZI',
-    social: '',
-    character: [ [Array], null, null ],
-    flag: [ null, null ]
-  },
-  {
-    name: 'CUBBY | HyperRose',
-    social: '',
-    character: [ [Array], null, null ],
-    flag: [ null, null ]
-  },
-  {
-    name: 'CHA | SJP',
-    social: '',
-    character: [ [Array], null, null ],
-    flag: [ null, null ]
-  },
-  {
-    name: 'ALU | Towelie',
-    social: '',
-    character: [ [Array], null, null ],
-    flag: [ null, null ]
-  },
-  {
-    name: 'GG | ThymeMaster',
-    social: '',
-    character: [ [Array], null, null ],
-    flag: [ null, null ]
-  },
-  {
-    name: 'paper_plate',
-    social: '',
-    character: [ [Array], null, null ],
-    flag: [ null, null ]
-  }
-]
-
 describe('generateMergedPayload', () => {
   it('should return an array of objects with the correct shape', () => {
     const result = generateMergedPayload(eventStanding, selectionSample, characterArray)

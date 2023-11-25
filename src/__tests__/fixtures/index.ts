@@ -1,7 +1,7 @@
 export const eventStanding = [
   {
     placement: 1,
-    entrant: { id: 14681437, name: 'Rickles', participants: [ { user: { slug: 'user/7e3aca4e' } } ] }
+    entrant: { id: 14659208, name: 'BeeDoo', participants: [ { user: { slug: 'user/f817f4a8' } } ] }
   },
   {
     placement: 2,
@@ -125,11 +125,11 @@ export const characterArray = [
 
 export const selectionSample = [
   { selectionValue: 1453, id: 14665523, name: 'ALU | Doomy' },
-  { selectionValue: 1287, id: 14681437, name: 'Rickles' },
+  { selectionValue: 1285, id: 14659208, name: 'BeeDoo' },
   { selectionValue: 1453, id: 14665523, name: 'ALU | Doomy' },
-  { selectionValue: 1287, id: 14681437, name: 'Rickles' },
+  { selectionValue: 1285, id: 14659208, name: 'BeeDoo' },
   { selectionValue: 1453, id: 14665523, name: 'ALU | Doomy' },
-  { selectionValue: 1287, id: 14681437, name: 'Rickles' },
+  { selectionValue: 1285, id: 14659208, name: 'BeeDoo' },
   { selectionValue: 1453, id: 14665523, name: 'ALU | Doomy' },
   { selectionValue: 1331, id: 14675650, name: 'RZI' },
   { selectionValue: 1453, id: 14665523, name: 'ALU | Doomy' },
@@ -171,13 +171,13 @@ export const selectionSample = [
   { selectionValue: 1271, id: 14664085, name: 'CUBBY | HyperRose' },
   { selectionValue: 1295, id: 14674982, name: 'CHA | SJP' },
   { selectionValue: 1453, id: 14665523, name: 'ALU | Doomy' },
-  { selectionValue: 1287, id: 14681437, name: 'Rickles' },
+  { selectionValue: 1285, id: 14659208, name: 'BeeDoo' },
   { selectionValue: 1453, id: 14665523, name: 'ALU | Doomy' },
-  { selectionValue: 1287, id: 14681437, name: 'Rickles' },
+  { selectionValue: 1285, id: 14659208, name: 'BeeDoo' },
   { selectionValue: 1453, id: 14665523, name: 'ALU | Doomy' },
-  { selectionValue: 1287, id: 14681437, name: 'Rickles' },
+  { selectionValue: 1285, id: 14659208, name: 'BeeDoo' },
   { selectionValue: 1453, id: 14665523, name: 'ALU | Doomy' },
-  { selectionValue: 1287, id: 14681437, name: 'Rickles' },
+  { selectionValue: 1285, id: 14659208, name: 'BeeDoo' },
   { selectionValue: 1453, id: 14665523, name: 'ALU | Doomy' },
   { selectionValue: 1331, id: 14675650, name: 'RZI' },
   { selectionValue: 1453, id: 14665523, name: 'ALU | Doomy' },
@@ -217,13 +217,13 @@ export const selectionSample = [
   { selectionValue: 1747, id: 14659096, name: 'paper_plate' },
   { selectionValue: 1453, id: 14664224, name: 'CHA | Oda' },
   { selectionValue: 1271, id: 14664085, name: 'CUBBY | HyperRose' },
-  { selectionValue: 1287, id: 14681437, name: 'Rickles' },
+  { selectionValue: 1285, id: 14659208, name: 'BeeDoo' },
   { selectionValue: 1271, id: 14664085, name: 'CUBBY | HyperRose' },
-  { selectionValue: 1287, id: 14681437, name: 'Rickles' },
+  { selectionValue: 1285, id: 14659208, name: 'BeeDoo' },
   { selectionValue: 1271, id: 14664085, name: 'CUBBY | HyperRose' },
-  { selectionValue: 1287, id: 14681437, name: 'Rickles' },
+  { selectionValue: 1285, id: 14659208, name: 'BeeDoo' },
   { selectionValue: 1271, id: 14664085, name: 'CUBBY | HyperRose' },
-  { selectionValue: 1287, id: 14681437, name: 'Rickles' },
+  { selectionValue: 1285, id: 14659208, name: 'BeeDoo' },
   { selectionValue: 1285, id: 14659208, name: 'BeeDoo' },
   { selectionValue: 1295, id: 14674982, name: 'CHA | SJP' },
   { selectionValue: 1285, id: 14659208, name: 'BeeDoo' },
@@ -248,9 +248,9 @@ export const selectionSample = [
 
 export const finalPayload = [
   {
-    name: 'Rickles',
+    name: 'BeeDoo',
     social: '',
-    character: [ [ 'Ganondorf', 0 ], null, null ],
+    character: [ [ 'Falco', 2 ], null, null ],
     flag: [ null, null ]
   },
   {
