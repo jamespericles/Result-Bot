@@ -86,13 +86,7 @@ const generateTop8er = async (
       const buffer = Buffer.from(base64Data, 'base64')
 
       // Write the buffer to a file
-      fs.writeFile('graphic.png', buffer, (err) => {
-        if (err) {
-          console.error(err)
-        } else {
-          console.log('Image saved successfully')
-        }
-      })
+      await fs.promises.writeFile('graphic.png', buffer)
       return { success: true, image: base64Data }
     }
   }
