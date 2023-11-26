@@ -1,80 +1,72 @@
 import { generateTop8er } from 'util/index'
-import { sanitizedCharacterName } from 'util/generateTop8er'
-//
-import fs from 'fs';
-import dotenv from 'dotenv';
-import { Base64String } from 'discord.js';
-import { Standings } from 'util/getEventStanding';
-import { Selections } from 'util/getSelectionValByGame';
-import { Characters } from 'util/getCharacters';
-
-dotenv.config()
-jest.mock('node-fetch', () => ({
-    default: jest.fn()
-}))
-
-const { TOP8ER_URI } = process.env
+import { Characters } from 'util/getCharacters'
+import { 
+  eventStanding,
+  selectionSample,
+  characterArray 
+} from '__tests__/fixtures'
+import * as getCharacters from 'util/getCharacters'
 
 describe('generateTop8er', () => {
-    const mockEventStanding: Standings = [
-      {
-        placement: 1,
-        entrant: {
-          id: 1,
-          name: 'Player 1',
-          participants: [{
-            user: {
-              slug: 'user/1',
-            },
-          }]
-        },
-      },
-      {
-        placement: 2,
-        entrant: {
-          id: 2,
-          name: 'Player 2',
-          participants: [{
-            user: {
-              slug: 'user/2',
-            },
-          }]
-        },
-      },
-    ];
-  
-    const mockSelectionSample: Selections[] = [
-      {
-        id: 1,
-        selectionValue: 1,
-        name: 'Character 1',
-      },
-      {
-        id: 2,
-        selectionValue: 2,
-        name: 'Character 2',
-      },
-    ];
-  
-    const mockCharacterArray: Characters = [
-      {
-        id: 1,
-        name: 'Character 1',
-      },
-      {
-        id: 2,
-        name: 'Character 2',
-      },
-    ];
-})
+  beforeEach(() => {
+    jest.resetModules()
+    process.env.TOP8ER_URI = 'https://www.top8er.com/api/generate/top8er/ssbu/'
+    process.env.STARTGG_KEY = 'test-key'
+    process.env.STARTGG_URI = 'https://example.com/graphql'
+    process.env.TOURNAMENT_NAME = 'alulu'
+  })
 
-describe('sanitizedCharacterName', () => {
-    it('sanitizedCharacterName should return the correct character name if it exists in the map', () => {
-        expect(sanitizedCharacterName('Pyra & Mythra')).toBe('Pyra and Mythra')
-        expect(sanitizedCharacterName('Random Character')).toBe('Random')
+  const mockSuccess = jest.fn().mockResolvedValue({
+    status: 200,
+    json: jest.fn().mockResolvedValue({
+      base64_img: 'test-image'
     })
-    
-    it('should return the original character name if it does not exist in the map', () => {
-        expect(sanitizedCharacterName('Character')).toBe('Character')
+  })
+
+  const mockFailure = jest.fn().mockResolvedValue({
+    status: 500,
+    json: jest.fn().mockResolvedValue({
+      error: 'test-error'
     })
+  })
+
+  const characterSpy = jest.spyOn(getCharacters, 'default')
+  characterSpy.mockResolvedValue(characterArray as Characters)
+
+  it('should return data', async () => {
+    jest.mock('node-fetch', () => ({
+      __esModule: true,
+      default: mockSuccess,
+    }))
+
+    const generateImage = await generateTop8er(eventStanding, selectionSample, 154)
+
+    if (generateImage) {
+      expect(generateImage).toEqual({
+        success: true,
+        image: 'test-image'
+      })
+    }
+  })
+
+  it('should return an error', async () => {
+    jest.mock('node-fetch', () => ({
+      __esModule: true,
+      default: mockFailure,
+    }))
+
+    const generateImage = await generateTop8er(eventStanding, selectionSample, 154)
+
+    expect(generateImage).toEqual({
+      success: false,
+      error: new Error('Error: 500')
+    })
+  })
+
+  afterAll(() => {
+    delete process.env.TOP8ER_URI
+    delete process.env.TOURNAMENT_NAME
+
+    characterSpy.mockRestore()
+  })
 })
