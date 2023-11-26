@@ -6,8 +6,6 @@ import {
   characterArray 
 } from '__tests__/fixtures'
 import * as getCharacters from 'util/getCharacters'
-import fs, { writeFile } from 'fs'
-import { resolve } from 'path'
 
 describe('generateTop8er', () => {
   beforeEach(() => {

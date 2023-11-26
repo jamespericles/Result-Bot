@@ -1,5 +1,5 @@
 ![Static Badge](https://img.shields.io/badge/Total%20Instances%20-%202%20-%20green)
-![Static Badge](https://img.shields.io/badge/Test%20Coverage%20-%2083.98%25%20-%20blue)
+![Static Badge](https://img.shields.io/badge/Test%20Coverage%20-%20100%25%20-%20blue)
 ![Static Badge](https://img.shields.io/badge/Congruent%20Users%20-%20%3E%20400%20-%20gold)
 
 # Results Bot

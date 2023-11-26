@@ -21,8 +21,7 @@ function incrementWeekCount() {
 }
 
 const job = new CronJob(
-  // '0 9 * * 3',
-  '*/5 * * * * *',
+  process.env.CRON_JOB_CADENCE as string,
   async () => {
     console.log('*** Cron job running ***')
     // 9am every Wednesday
@@ -73,7 +72,7 @@ const job = new CronJob(
         )
         channel.send({
           embeds: [embed],
-          content: `@e veryone Check out the results of ${sanitizeTournamentName(process.env.TOURNAMENT_NAME as string)}-${weekCount}!`,
+          content: `@everyone Check out the results of ${sanitizeTournamentName(process.env.TOURNAMENT_NAME as string)}-${weekCount}!`,
           files: ['graphic.png'],
         })
 
@@ -86,7 +85,7 @@ const job = new CronJob(
         )
         channel.send({
           embeds: [embed],
-          content: `@e veryone Check out the results of ${sanitizeTournamentName(process.env.TOURNAMENT_NAME as string)}-${weekCount}!`,
+          content: `@everyone Check out the results of ${sanitizeTournamentName(process.env.TOURNAMENT_NAME as string)}-${weekCount}!`,
         })
         
         incrementWeekCount()
