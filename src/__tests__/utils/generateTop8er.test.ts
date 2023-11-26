@@ -21,14 +21,19 @@ describe('generateTop8er', () => {
     delete process.env.TOURNAMENT_NAME
   })
 
-  const mockResponse = {
+  const mockSuccess = jest.fn().mockResolvedValue({
     status: 200,
     json: jest.fn().mockResolvedValue({
       base64_img: 'test-image'
     })
-  }
+  })
 
-  const mockSuccess = jest.fn().mockResolvedValue(mockResponse)
+  const mockFailure = jest.fn().mockResolvedValue({
+    status: 500,
+    json: jest.fn().mockResolvedValue({
+      error: 'test-error'
+    })
+  })
 
   const characterSpy = jest.spyOn(getCharacters, 'default')
   characterSpy.mockResolvedValue(characterArray as Characters)
@@ -52,6 +57,20 @@ describe('generateTop8er', () => {
     expect(generateImage).toEqual({
       success: true,
       image: 'test-image'
+    })
+  })
+
+  it('it should return an error', async () => {
+    jest.mock('node-fetch', () => ({
+      __esModule: true,
+      default: mockFailure,
+    }))
+
+    const generateImage = await generateTop8er(eventStanding, selectionSample, 154)
+
+    expect(generateImage).toEqual({
+      success: false,
+      error: new Error('Error: 500')
     })
   })
 })
