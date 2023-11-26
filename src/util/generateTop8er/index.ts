@@ -33,6 +33,7 @@ const generateTop8er = async (
   week: string | number
 ): Promise<GenerateImageResponse | undefined> => {
   const characterArray = (await getCharacters()) as Characters
+
   if (eventStanding && selectionSample && characterArray) {
     const res = await fetch(TOP8ER_URI, {
       method: 'POST',
@@ -66,11 +67,12 @@ const generateTop8er = async (
       }),
     })
 
-    if (res.status !== 200)
+    if (res.status !== 200) {
       return {
         success: false,
         error: new Error(`Error: ${res.status}`),
       }
+    }
 
     if (res.status === 200) {
       const { base64_img } = (await res.json()) as { base64_img: string }

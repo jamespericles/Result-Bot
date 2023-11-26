@@ -1,12 +1,18 @@
-import { generateTop8er } from 'util/index';
-import { Standings } from 'util/getEventStanding';
-import { Selections } from 'util/getSelectionValByGame';
-import { Characters } from 'util/getCharacters';
+import { generateTop8er } from 'util/index'
+import { Standings } from 'util/getEventStanding'
+import { Selections } from 'util/getSelectionValByGame'
+import { Characters } from 'util/getCharacters'
+import { eventStanding, selectionSample, finalPayload, characterArray } from '__tests__/fixtures'
+import * as getCharacters from 'util/getCharacters'
+import * as generateMergedPayload from 'util/generateMergedPayload'
+import * as sanitizeTournamentName from 'util/sanitizeTournamentName'
 
 describe('generateTop8er', () => {
   beforeEach(() => {
     jest.resetModules()
-    process.env.TOP8ER_URI = 'https://example.com'
+    process.env.TOP8ER_URI = 'https://www.top8er.com/api/generate/top8er/ssbu/'
+    process.env.STARTGG_KEY = 'test-key'
+    process.env.STARTGG_URI = 'https://example.com/graphql'
     process.env.TOURNAMENT_NAME = 'alulu'
   })
 
@@ -16,10 +22,36 @@ describe('generateTop8er', () => {
   })
 
   const mockResponse = {
-    json: jest.fn().mockResolvedValue({})
+    status: 200,
+    json: jest.fn().mockResolvedValue({
+      base64_img: 'test-image'
+    })
   }
 
-  it('', () => {
-    expect(true).toBe(true)
+  const mockSuccess = jest.fn().mockResolvedValue(mockResponse)
+
+  const characterSpy = jest.spyOn(getCharacters, 'default')
+  characterSpy.mockResolvedValue(characterArray as Characters)
+
+  // const generateMergedPayloadSpy = jest.spyOn(generateMergedPayload, 'default')
+  // generateMergedPayloadSpy.mockReturnValue(finalPayload)
+
+  // const sanitizeTournamentNameSpy = jest.spyOn(sanitizeTournamentName, 'default')
+  // sanitizeTournamentNameSpy.mockReturnValue('Alulu')
+
+  const consoleSpy = jest.spyOn(console, 'log')
+  
+  it('it should return data', async () => {
+    jest.mock('node-fetch', () => ({
+      __esModule: true,
+      default: mockSuccess,
+    }))
+
+    const generateImage = await generateTop8er(eventStanding, selectionSample, 154)
+
+    expect(generateImage).toEqual({
+      success: true,
+      image: 'test-image'
+    })
   })
 })
