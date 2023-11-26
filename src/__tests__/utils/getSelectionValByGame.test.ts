@@ -1,4 +1,4 @@
-import getSelectionValByGame from 'util/getSelectionValByGame'
+import { getSelectionValByGame } from 'util/index'
 import { Selections } from 'util/getSelectionValByGame'
 
 describe('getSelectionValByGame', () => {
