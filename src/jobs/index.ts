@@ -29,7 +29,7 @@ const job = new CronJob(
     // const channel = client.channels.cache.get(
     //   process.env.CHANNEL_ID as string
     // ) as TextChannel
-    console.log('updated')
+    console.log('updated again')
 
     // const { id, slug } = await getTournamentsByCoord(
     //   1,
