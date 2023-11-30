@@ -28,6 +28,7 @@ jobs:
             cd /root/Result-Bot
             docker stop result-bot || true
             docker rm result-bot || true
+            git stash
             git pull
             docker build -t result-bot .
             docker run -d --name result-bot result-bot

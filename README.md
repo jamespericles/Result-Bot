@@ -1,12 +1,13 @@
-![Static Badge](https://img.shields.io/badge/Total%20Instances%20-%202%20-%20green)
-![Static Badge](https://img.shields.io/badge/Test%20Coverage%20-%20100%25%20-%20blue)
-![Static Badge](https://img.shields.io/badge/Congruent%20Users%20-%20%3E%20400%20-%20gold)
+![Total Instances](https://img.shields.io/badge/Total%20Instances%20-%202%20-%20green)
+![Test Coverage](https://img.shields.io/badge/Test%20Coverage%20-%20100%25%20-%20blue)
+![Congruent Users](https://img.shields.io/badge/Congruent%20Users%20-%20%3E%20400%20-%20gold)
+![Docker Logo](https://img.shields.io/badge/Docker-2CA5E0?style=for-the-badge&logo=docker&logoColor=white)
 
 # Results Bot
 
 ## Description
 
-This bot was originally created to serve my local Smash Ultimate Scene [Alulu.](https://www.start.gg/tournament/alulu-135/details) I was recently approached by another local tournament organizer to spin up an instance for their scene as well. This led to me rewriting the bot to be less specific to Alulu so it can be easily deployed to other servers.
+This bot was created to serve my local Smash Ultimate Scene [Alulu.](https://www.start.gg/tournament/alulu-135/details) I have since been approached by another local tournament organizer to spin up an instance for their scene as well. This led to me rewriting the bot to be less specific to Alulu so it can be easily deployed to other servers.
 
 The primary function of the bot is to query the start.gg API the day after the tournament is held, then to mention everyone in our results channel on Discord with the top 8 placements. I've succeeded in doing this by utilizing [Cron](https://www.npmjs.com/package/cron) as well as by hosting the bot on an Ubuntu server with [Vultr](https://www.vultr.com/).
 
@@ -44,6 +45,8 @@ The bot is written in TypeScript, and uses [discord.js](https://discord.js.org/#
 ## Deployment
 
 All instances are hosted on [Vultr](https://www.vultr.com/) using their lowest specs (Cloud Compute, General Purpose Server, 25 GB NVMe). I also opted for Ubuntu 23.04 x64 as my OS.
+
+Each Ubuntu instance is provisioned with [Docker](https://www.docker.com/). This allows me to easily update the bot without having to manually restart it. I have a GitHub action defined that ssh's into my server, identifies and stops the current container, pulls the latest changes from the main branch, then builds a new container and starts it. This is all done automatically when a git pull is made to main.
 
 ## Additional Functionality
 

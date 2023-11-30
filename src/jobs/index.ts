@@ -25,73 +25,72 @@ const job = new CronJob(
   async () => {
     console.log('*** Cron job running ***')
     // 9am every Wednesday
-    // const weekCount = parseInt(fs.readFileSync('WEEK_COUNT.txt', 'utf8'))
-    // const channel = client.channels.cache.get(
-    //   process.env.CHANNEL_ID as string
-    // ) as TextChannel
-    console.log('updated again')
+    const weekCount = parseInt(fs.readFileSync('WEEK_COUNT.txt', 'utf8'))
+    const channel = client.channels.cache.get(
+      process.env.CHANNEL_ID as string
+    ) as TextChannel
 
-    // const { id, slug } = await getTournamentsByCoord(
-    //   1,
-    //   process.env.TOURNAMENT_COORDS as string,
-    //   '1mi',
-    //   weekCount
-    //   )
+    const { id, slug } = await getTournamentsByCoord(
+      1,
+      process.env.TOURNAMENT_COORDS as string,
+      '1mi',
+      weekCount
+      )
 
-    // if (id === null) return console.error('ID not generated')
-    // if (slug === null) return console.error('Slug not generated')
+    if (id === null) return console.error('ID not generated')
+    if (slug === null) return console.error('Slug not generated')
 
-    // // @TODO - This can be bypassed, getEventStanding can take the slug
-    // const eventStanding = await getEventStanding(
-    //   id
-    // )
+    // @TODO - This can be bypassed, getEventStanding can take the slug
+    const eventStanding = await getEventStanding(
+      id
+    )
 
-    // if (eventStanding instanceof Error) {
-    //   console.error(eventStanding)
-    //   return
-    // }
+    if (eventStanding instanceof Error) {
+      console.error(eventStanding)
+      return
+    }
 
-    // const selectionSample = await getSelectionValByGame(slug)
+    const selectionSample = await getSelectionValByGame(slug)
 
-    // if (selectionSample instanceof Error) {
-    //   console.error(selectionSample)
-    //   return
-    // }
+    if (selectionSample instanceof Error) {
+      console.error(selectionSample)
+      return
+    }
 
-    // if (eventStanding && selectionSample && slug) {
-    //   const top8er = await generateTop8er(
-    //     eventStanding,
-    //     selectionSample,
-    //     weekCount
-    //   )
+    if (eventStanding && selectionSample && slug) {
+      const top8er = await generateTop8er(
+        eventStanding,
+        selectionSample,
+        weekCount
+      )
 
-    //   if (top8er && top8er.success) {
-    //     const embed = generateResultsPayload(
-    //       weekCount.toString(),
-    //       slug,
-    //       eventStanding
-    //     )
-    //     channel.send({
-    //       embeds: [embed],
-    //       content: `@everyone Check out the results of ${sanitizeTournamentName(process.env.TOURNAMENT_NAME as string)}-${weekCount}!`,
-    //       files: ['graphic.png'],
-    //     })
+      if (top8er && top8er.success) {
+        const embed = generateResultsPayload(
+          weekCount.toString(),
+          slug,
+          eventStanding
+        )
+        channel.send({
+          embeds: [embed],
+          content: `@everyone Check out the results of ${sanitizeTournamentName(process.env.TOURNAMENT_NAME as string)}-${weekCount}!`,
+          files: ['graphic.png'],
+        })
 
-    //     incrementWeekCount()
-    //   } else {
-    //     const embed = generateResultsPayload(
-    //       weekCount.toString(),
-    //       slug,
-    //       eventStanding
-    //     )
-    //     channel.send({
-    //       embeds: [embed],
-    //       content: `@everyone Check out the results of ${sanitizeTournamentName(process.env.TOURNAMENT_NAME as string)}-${weekCount}!`,
-    //     })
+        incrementWeekCount()
+      } else {
+        const embed = generateResultsPayload(
+          weekCount.toString(),
+          slug,
+          eventStanding
+        )
+        channel.send({
+          embeds: [embed],
+          content: `@everyone Check out the results of ${sanitizeTournamentName(process.env.TOURNAMENT_NAME as string)}-${weekCount}!`,
+        })
         
-    //     incrementWeekCount()
-    //   }
-    // }
+        incrementWeekCount()
+      }
+    }
   },
   null,
   true,
