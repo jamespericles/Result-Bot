@@ -29,7 +29,7 @@ jobs:
             docker stop result-bot || true
             docker rm result-bot || true
             git stash
-            git pull
+            git pull && echo "Git pull was successful" || echo "Git pull failed"
             docker build -t result-bot .
             docker run -d --name result-bot result-bot
           EOF
