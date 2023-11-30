@@ -26,10 +26,11 @@ const job = new CronJob(
     console.log('*** Cron job running ***')
     // 9am every Wednesday
     // const weekCount = parseInt(fs.readFileSync('WEEK_COUNT.txt', 'utf8'))
-    const channel = client.channels.cache.get(
-      process.env.CHANNEL_ID as string
-    ) as TextChannel
-      channel.send({ content: 'test' })
+    // const channel = client.channels.cache.get(
+    //   process.env.CHANNEL_ID as string
+    // ) as TextChannel
+    console.log('updated')
+
     // const { id, slug } = await getTournamentsByCoord(
     //   1,
     //   process.env.TOURNAMENT_COORDS as string,
