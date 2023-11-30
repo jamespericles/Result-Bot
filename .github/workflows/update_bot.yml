@@ -1,4 +1,4 @@
-name: Git Pull
+name: Git Pull and Docker Update
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  pull-and-install:
+  replace-image:
     runs-on: ubuntu-latest
     environment: dev
 
@@ -22,8 +22,13 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.SERVER_SSH_KEY }}
 
-      - name: Pull from server
-        run: ssh -o StrictHostKeyChecking=no root@45.63.66.64 'cd /root/Result-Bot && git pull'
-
-      - name: Install dependencies
-        run: ssh -o StrictHostKeyChecking=no root@45.63.66.64 'cd /root/Result-Bot && yarn'
+      - name: SSH and Docker commands
+        run: |
+          ssh -o StrictHostKeyChecking=no root@45.63.66.64 << EOF
+            cd /root/Result-Bot
+            docker stop result-bot || true
+            docker rm result-bot || true
+            git pull
+            docker build -t result-bot .
+            docker run -d --name result-bot result-bot
+          EOF
