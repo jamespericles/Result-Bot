@@ -78,7 +78,7 @@ describe('getTournamentByCoord', () => {
   it('sanitizeSlug() should work', () => {
     const dirtySlugs = ['Hello, World', 'This is a Test', '1234', '!@#$%^&*()']
 
-    const sanitizedSlugs = ['hello-world', 'this-is-a-test', '1234', '-']
+    const sanitizedSlugs = ['hello-world', 'this-is-a-test', '1234', '']
 
     for (let i = 0; i < dirtySlugs.length; i++) {
       const dirty = dirtySlugs[i]
