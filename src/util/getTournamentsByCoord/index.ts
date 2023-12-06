@@ -38,7 +38,10 @@ export const sanitizeSlug = (input: string): string => {
   // Convert to lowercase
   const lowercase = withHyphens.toLowerCase()
 
-  return lowercase
+  // Remove any trailing hyphens
+  const withoutTrailingHyphens = lowercase.replace(/-+$/, '')
+
+  return withoutTrailingHyphens
 }
 
 const getTournamentsByCoord = async (
